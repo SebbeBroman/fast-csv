@@ -40,6 +40,9 @@ export class RowFormatter<I extends Row, O extends Row> {
                 let transformedRow = null;
                 try {
                     transformedRow = transformFunction(row);
+                    if (transformedRow && typeof (transformedRow as { then?: unknown }).then === 'function') {
+                        throw new TypeError('Formatter transforms must return rows synchronously or use a callback');
+                    }
                 } catch (e) {
                     return cb(e);
                 }

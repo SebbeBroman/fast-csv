@@ -1,3 +1,16 @@
+## Local ESM/browser fork
+
+This fork ships native ESM only. Browser formatting has no Node dependencies or polyfills:
+
+```js
+import { writeToString } from '@fast-csv/format/browser';
+
+const text = await writeToString([{ name: 'Alice', value: 'a,b' }], { headers: true });
+// name,value\nAlice,"a,b"
+```
+
+This returns the full CSV string using the existing formatter options, including headers, quoting, escaping, BOMs, row delimiters, and synchronous or callback-based transforms. Promise-returning transforms are rejected; use a callback for asynchronous work. Import the package root for Node streaming APIs.
+
 <p align="center">
   <a href="https://c2fo.github.io/fast-csv" target="blank"><img src="https://c2fo.github.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
 </p>

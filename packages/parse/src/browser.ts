@@ -88,12 +88,21 @@ export function parseTextWithInfo<I extends Row = Row, O extends Row = I>(
             continue;
         }
         const row = options.transform ? options.transform(mapped.row) : (mapped.row as unknown as O);
+        if (row && typeof (row as { then?: unknown }).then === 'function') {
+            throw new TypeError('Browser transforms must be synchronous');
+        }
         if (row === null) {
             continue;
         }
-        if (options.validate && !options.validate(row)) {
-            result.invalidRows.push({ row, rowNumber: result.rowCount });
-            continue;
+        if (options.validate) {
+            const valid = options.validate(row);
+            if (typeof valid !== 'boolean') {
+                throw new TypeError('Browser validators must return a boolean synchronously');
+            }
+            if (!valid) {
+                result.invalidRows.push({ row, rowNumber: result.rowCount });
+                continue;
+            }
         }
         result.rows.push(row);
     }

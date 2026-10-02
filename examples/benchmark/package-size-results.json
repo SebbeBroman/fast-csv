@@ -1,0 +1,17 @@
+[
+    {
+        "package": "@fast-csv/parse",
+        "tarballBytes": 20937,
+        "unpackedBytes": 94536
+    },
+    {
+        "package": "@fast-csv/format",
+        "tarballBytes": 11069,
+        "unpackedBytes": 40863
+    },
+    {
+        "package": "fast-csv",
+        "tarballBytes": 3103,
+        "unpackedBytes": 7086
+    }
+]

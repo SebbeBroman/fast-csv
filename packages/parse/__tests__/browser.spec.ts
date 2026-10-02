@@ -141,4 +141,22 @@ describe('browser parser', () => {
             parseText('a\nx,y', { headers: true });
         }).toThrow('column header mismatch');
     });
+    it('rejects asynchronous transforms and validators', () => {
+        expect(() => {
+            // Broad RowMap types also admit Promise objects, so guard at runtime.
+            void parseText('x', {
+                transform: (row: Row) => {
+                    return Promise.resolve(row);
+                },
+            });
+        }).toThrow('transforms must be synchronous');
+        expect(() => {
+            parseText('x', {
+                // @ts-expect-error Validators must return a boolean, not a Promise.
+                validate: () => {
+                    return Promise.resolve(false);
+                },
+            });
+        }).toThrow('validators must return a boolean synchronously');
+    });
 });

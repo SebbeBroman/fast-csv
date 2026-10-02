@@ -24,6 +24,25 @@ describe('HeaderTransformer', () => {
     };
 
     describe('#transform', () => {
+        it('preserves prototype-named headers as own data properties', () => {
+            const transformer = createHeaderTransformer({ headers: ['__proto__', 'constructor', 'toString'] });
+            const { row } = transformer.transformRow(['x', 'y', 'z']);
+            expect(Object.getPrototypeOf(row)).toBe(Object.prototype);
+            expect(Object.keys(row as object)).toEqual(['__proto__', 'constructor', 'toString']);
+            expect(JSON.stringify(row)).toBe('{"__proto__":"x","constructor":"y","toString":"z"}');
+        });
+
+        it.each(['__proto__', 'constructor', 'toString'])('reports duplicate %s headers', (header) => {
+            expect(() => {
+                return createHeaderTransformer({ headers: [header, header] });
+            }).toThrow(`Duplicate headers found ["${header}"]`);
+        });
+
+        it('skips null headers', () => {
+            const transformer = createHeaderTransformer({ headers: [null, 'value'] });
+            expect(transformer.transformRow(['ignored', 'x']).row).toEqual({ value: 'x' });
+        });
+
         it('should return a valid row', async () => {
             const row = ['a', 'b'];
             const transformer = createHeaderTransformer({ headers: false });

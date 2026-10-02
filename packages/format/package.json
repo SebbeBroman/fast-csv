@@ -45,6 +45,18 @@
             "types": "./build/esm/src/index.d.ts",
             "default": "./build/esm/src/index.js"
         },
-        "./package.json": "./package.json"
-    }
+        "./package.json": "./package.json",
+        "./browser": {
+            "types": "./build/esm/src/browser.d.ts",
+            "default": "./build/esm/src/browser.js"
+        }
+    },
+    "typesVersions": {
+        "*": {
+            "browser": [
+                "build/esm/src/browser.d.ts"
+            ]
+        }
+    },
+    "sideEffects": false
 }

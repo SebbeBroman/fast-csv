@@ -1,0 +1,154 @@
+{
+    "esbuildVersion": "0.28.2",
+    "target": "es2022",
+    "format": "esm",
+    "notes": "Production minified bundles, no source maps; gzip level 9 / Brotli quality 11. Node builtins remain external. Bytes exclude application code and transport headers.",
+    "results": [
+        {
+            "name": "browser parser",
+            "platform": "browser",
+            "minifiedBytes": 10902,
+            "gzipBytes": 3559,
+            "brotliBytes": 3241,
+            "externalImports": [],
+            "modules": [
+                { "file": "packages/parse/build/esm/src/parser/Token.js", "bytesInOutput": 534 },
+                { "file": "packages/parse/build/esm/src/parser/Scanner.js", "bytesInOutput": 1619 },
+                { "file": "packages/parse/build/esm/src/parser/column/ColumnFormatter.js", "bytesInOutput": 157 },
+                { "file": "packages/parse/build/esm/src/parser/column/NonQuotedColumnParser.js", "bytesInOutput": 374 },
+                { "file": "packages/parse/build/esm/src/parser/column/QuotedColumnParser.js", "bytesInOutput": 2066 },
+                { "file": "packages/parse/build/esm/src/parser/column/ColumnParser.js", "bytesInOutput": 384 },
+                { "file": "packages/parse/build/esm/src/parser/RowParser.js", "bytesInOutput": 966 },
+                { "file": "packages/parse/build/esm/src/parser/Parser.js", "bytesInOutput": 1066 },
+                { "file": "packages/parse/build/esm/src/ParserOptions.js", "bytesInOutput": 776 },
+                { "file": "packages/parse/build/esm/src/transforms/HeaderTransformer.js", "bytesInOutput": 2066 },
+                { "file": "packages/parse/build/esm/src/browser.js", "bytesInOutput": 847 }
+            ]
+        },
+        {
+            "name": "browser formatter",
+            "platform": "browser",
+            "minifiedBytes": 4495,
+            "gzipBytes": 1635,
+            "brotliBytes": 1484,
+            "externalImports": [],
+            "modules": [
+                { "file": "packages/format/build/esm/src/FormatterOptions.js", "bytesInOutput": 653 },
+                { "file": "packages/format/build/esm/src/formatter/FieldFormatter.js", "bytesInOutput": 906 },
+                { "file": "packages/format/build/esm/src/types.js", "bytesInOutput": 20 },
+                { "file": "packages/format/build/esm/src/formatter/RowFormatter.js", "bytesInOutput": 2650 },
+                { "file": "packages/format/build/esm/src/browser.js", "bytesInOutput": 238 }
+            ]
+        },
+        {
+            "name": "browser umbrella: parser only",
+            "platform": "browser",
+            "minifiedBytes": 10902,
+            "gzipBytes": 3564,
+            "brotliBytes": 3247,
+            "externalImports": [],
+            "modules": [
+                { "file": "packages/parse/build/esm/src/parser/Token.js", "bytesInOutput": 534 },
+                { "file": "packages/parse/build/esm/src/parser/Scanner.js", "bytesInOutput": 1619 },
+                { "file": "packages/parse/build/esm/src/parser/column/ColumnFormatter.js", "bytesInOutput": 157 },
+                { "file": "packages/parse/build/esm/src/parser/column/NonQuotedColumnParser.js", "bytesInOutput": 374 },
+                { "file": "packages/parse/build/esm/src/parser/column/QuotedColumnParser.js", "bytesInOutput": 2066 },
+                { "file": "packages/parse/build/esm/src/parser/column/ColumnParser.js", "bytesInOutput": 384 },
+                { "file": "packages/parse/build/esm/src/parser/RowParser.js", "bytesInOutput": 966 },
+                { "file": "packages/parse/build/esm/src/parser/Parser.js", "bytesInOutput": 1066 },
+                { "file": "packages/parse/build/esm/src/ParserOptions.js", "bytesInOutput": 776 },
+                { "file": "packages/parse/build/esm/src/transforms/HeaderTransformer.js", "bytesInOutput": 2066 },
+                { "file": "packages/parse/build/esm/src/browser.js", "bytesInOutput": 847 }
+            ]
+        },
+        {
+            "name": "browser umbrella: all exports",
+            "platform": "browser",
+            "minifiedBytes": 15388,
+            "gzipBytes": 4852,
+            "brotliBytes": 4434,
+            "externalImports": [],
+            "modules": [
+                { "file": "packages/parse/build/esm/src/parser/Token.js", "bytesInOutput": 534 },
+                { "file": "packages/parse/build/esm/src/parser/Scanner.js", "bytesInOutput": 1619 },
+                { "file": "packages/parse/build/esm/src/parser/column/ColumnFormatter.js", "bytesInOutput": 157 },
+                { "file": "packages/parse/build/esm/src/parser/column/NonQuotedColumnParser.js", "bytesInOutput": 374 },
+                { "file": "packages/parse/build/esm/src/parser/column/QuotedColumnParser.js", "bytesInOutput": 2066 },
+                { "file": "packages/parse/build/esm/src/parser/column/ColumnParser.js", "bytesInOutput": 384 },
+                { "file": "packages/parse/build/esm/src/parser/RowParser.js", "bytesInOutput": 966 },
+                { "file": "packages/parse/build/esm/src/parser/Parser.js", "bytesInOutput": 1066 },
+                { "file": "packages/parse/build/esm/src/ParserOptions.js", "bytesInOutput": 776 },
+                { "file": "packages/parse/build/esm/src/transforms/HeaderTransformer.js", "bytesInOutput": 2066 },
+                { "file": "packages/parse/build/esm/src/browser.js", "bytesInOutput": 847 },
+                { "file": "packages/format/build/esm/src/FormatterOptions.js", "bytesInOutput": 653 },
+                { "file": "packages/format/build/esm/src/formatter/FieldFormatter.js", "bytesInOutput": 906 },
+                { "file": "packages/format/build/esm/src/types.js", "bytesInOutput": 20 },
+                { "file": "packages/format/build/esm/src/formatter/RowFormatter.js", "bytesInOutput": 2650 },
+                { "file": "packages/format/build/esm/src/browser.js", "bytesInOutput": 238 }
+            ]
+        },
+        {
+            "name": "unused browser import",
+            "platform": "browser",
+            "minifiedBytes": 32,
+            "gzipBytes": 52,
+            "brotliBytes": 36,
+            "externalImports": [],
+            "modules": [{ "file": "packages/fast-csv/consumer.mjs", "bytesInOutput": 10 }]
+        },
+        {
+            "name": "Node parser",
+            "platform": "node",
+            "minifiedBytes": 14295,
+            "gzipBytes": 4524,
+            "brotliBytes": 4118,
+            "externalImports": ["fs", "stream", "string_decoder", "stream"],
+            "modules": [
+                { "file": "packages/parse/build/esm/src/index.js", "bytesInOutput": 250 },
+                { "file": "packages/parse/build/esm/src/ParserOptions.js", "bytesInOutput": 776 },
+                { "file": "packages/parse/build/esm/src/CsvParserStream.js", "bytesInOutput": 2818 },
+                { "file": "packages/parse/build/esm/src/types.js", "bytesInOutput": 40 },
+                { "file": "packages/parse/build/esm/src/transforms/RowTransformerValidator.js", "bytesInOutput": 1025 },
+                { "file": "packages/parse/build/esm/src/transforms/HeaderTransformer.js", "bytesInOutput": 2066 },
+                { "file": "packages/parse/build/esm/src/parser/Token.js", "bytesInOutput": 534 },
+                { "file": "packages/parse/build/esm/src/parser/Scanner.js", "bytesInOutput": 1619 },
+                { "file": "packages/parse/build/esm/src/parser/column/ColumnFormatter.js", "bytesInOutput": 157 },
+                { "file": "packages/parse/build/esm/src/parser/column/NonQuotedColumnParser.js", "bytesInOutput": 374 },
+                { "file": "packages/parse/build/esm/src/parser/column/QuotedColumnParser.js", "bytesInOutput": 2066 },
+                { "file": "packages/parse/build/esm/src/parser/column/ColumnParser.js", "bytesInOutput": 384 },
+                { "file": "packages/parse/build/esm/src/parser/RowParser.js", "bytesInOutput": 966 },
+                { "file": "packages/parse/build/esm/src/parser/Parser.js", "bytesInOutput": 1066 }
+            ]
+        },
+        {
+            "name": "Node umbrella",
+            "platform": "node",
+            "minifiedBytes": 19876,
+            "gzipBytes": 6069,
+            "brotliBytes": 5530,
+            "externalImports": ["util", "stream", "fs", "stream", "fs", "stream", "string_decoder", "stream"],
+            "modules": [
+                { "file": "packages/format/build/esm/src/index.js", "bytesInOutput": 578 },
+                { "file": "packages/format/build/esm/src/FormatterOptions.js", "bytesInOutput": 653 },
+                { "file": "packages/format/build/esm/src/CsvFormatterStream.js", "bytesInOutput": 662 },
+                { "file": "packages/format/build/esm/src/formatter/FieldFormatter.js", "bytesInOutput": 906 },
+                { "file": "packages/format/build/esm/src/types.js", "bytesInOutput": 20 },
+                { "file": "packages/format/build/esm/src/formatter/RowFormatter.js", "bytesInOutput": 2650 },
+                { "file": "packages/parse/build/esm/src/index.js", "bytesInOutput": 252 },
+                { "file": "packages/parse/build/esm/src/ParserOptions.js", "bytesInOutput": 776 },
+                { "file": "packages/parse/build/esm/src/CsvParserStream.js", "bytesInOutput": 2822 },
+                { "file": "packages/parse/build/esm/src/types.js", "bytesInOutput": 40 },
+                { "file": "packages/parse/build/esm/src/transforms/RowTransformerValidator.js", "bytesInOutput": 1025 },
+                { "file": "packages/parse/build/esm/src/transforms/HeaderTransformer.js", "bytesInOutput": 2066 },
+                { "file": "packages/parse/build/esm/src/parser/Token.js", "bytesInOutput": 534 },
+                { "file": "packages/parse/build/esm/src/parser/Scanner.js", "bytesInOutput": 1621 },
+                { "file": "packages/parse/build/esm/src/parser/column/ColumnFormatter.js", "bytesInOutput": 157 },
+                { "file": "packages/parse/build/esm/src/parser/column/NonQuotedColumnParser.js", "bytesInOutput": 374 },
+                { "file": "packages/parse/build/esm/src/parser/column/QuotedColumnParser.js", "bytesInOutput": 2066 },
+                { "file": "packages/parse/build/esm/src/parser/column/ColumnParser.js", "bytesInOutput": 384 },
+                { "file": "packages/parse/build/esm/src/parser/RowParser.js", "bytesInOutput": 968 },
+                { "file": "packages/parse/build/esm/src/parser/Parser.js", "bytesInOutput": 1066 }
+            ]
+        }
+    ]
+}

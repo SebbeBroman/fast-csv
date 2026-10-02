@@ -58,5 +58,6 @@
                 "build/esm/src/browser.d.ts"
             ]
         }
-    }
+    },
+    "sideEffects": false
 }

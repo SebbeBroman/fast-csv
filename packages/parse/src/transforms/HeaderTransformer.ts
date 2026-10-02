@@ -101,11 +101,15 @@ export class HeaderTransformer<O extends Row> {
         const { headers, headersLength } = this;
         for (let i = 0; i < headersLength; i += 1) {
             const header = (headers as string[])[i];
-            if (header !== undefined) {
-                const val = row[i];
-
-                if (val === undefined) {
-                    rowMap[header] = '';
+            if (header != null) {
+                const val = row[i] ?? '';
+                if (header === '__proto__') {
+                    Object.defineProperty(rowMap, header, {
+                        value: val,
+                        enumerable: true,
+                        writable: true,
+                        configurable: true,
+                    });
                 } else {
                     rowMap[header] = val;
                 }
@@ -119,11 +123,13 @@ export class HeaderTransformer<O extends Row> {
             return !!h;
         });
         if (new Set(filteredHeaders).size !== filteredHeaders.length) {
-            // TODO(major): use Object.groupBy once engines require Node >=22 (available since Node 21)
-            const grouped = filteredHeaders.reduce<Record<string, string[]>>((acc, header) => {
-                (acc[header] ||= []).push(header);
-                return acc;
-            }, {});
+            const grouped = filteredHeaders.reduce<Record<string, string[]>>(
+                (acc, header) => {
+                    (acc[header] ||= []).push(header);
+                    return acc;
+                },
+                Object.create(null) as Record<string, string[]>,
+            );
             const duplicates = Object.keys(grouped).filter((dup) => {
                 return grouped[dup].length > 1;
             });

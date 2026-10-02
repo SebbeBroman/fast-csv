@@ -16,7 +16,8 @@
         "lint:js": "eslint --max-warnings 0 \"examples/**/examples/**/*.js\"",
         "jest": "jest --runInBand --coverage",
         "examples": "pnpm -r --if-present run all-examples",
-        "benchmarks": "pnpm -r --if-present run benchmarks"
+        "benchmarks": "pnpm -r --if-present run benchmarks",
+        "bundle:size": "node scripts/bundle-size.cjs"
     },
     "repository": {
         "type": "git",
@@ -40,6 +41,7 @@
         "@types/node": "24.12.3",
         "@typescript-eslint/eslint-plugin": "8.63.0",
         "@typescript-eslint/parser": "8.63.0",
+        "esbuild": "0.28.2",
         "eslint": "9.39.4",
         "eslint-config-prettier": "10.1.8",
         "eslint-plugin-import": "2.32.0",

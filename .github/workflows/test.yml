@@ -38,6 +38,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - run: pnpm run build
+      - run: node scripts/verify-packages.cjs
+      - run: pnpm run bundle:size
       - run: pnpm run format:check
       - run: pnpm run lint
       - run: pnpm run jest

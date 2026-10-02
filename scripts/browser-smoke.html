@@ -4,14 +4,15 @@
 <script type="importmap">
     {
         "imports": {
-            "@fast-csv/parse/browser": "/packages/parse/build/esm/src/browser.js"
+            "@fast-csv/parse/browser": "/packages/parse/build/esm/src/browser.js",
+            "@fast-csv/format/browser": "/packages/format/build/esm/src/browser.js"
         }
     }
 </script>
 <h1>Browser verification</h1>
 <pre id="results">Running…</pre>
 <script type="module">
-    import { parseText, parseTextWithInfo } from '/packages/fast-csv/build/esm/src/browser.js';
+    import { parseText, parseTextWithInfo, writeToString } from '/packages/fast-csv/build/esm/src/browser.js';
     const results = document.querySelector('#results');
     const check = (actual, expected) => {
         if (JSON.stringify(actual) !== JSON.stringify(expected)) {
@@ -41,6 +42,8 @@
             malformed = true;
         }
         check(malformed, true);
+        check(await writeToString([{ name: 'hé😀', value: 'a,b' }], { headers: true }), 'name,value\nhé😀,"a,b"');
+        check(parseText('__proto__,value\nx,1', { headers: true }), JSON.parse('[{"__proto__":"x","value":"1"}]'));
         const timings = [];
         for (const quoted of [false, true]) {
             const asset = await fetch(`/examples/benchmark/assets/1000.${quoted ? 'quoted' : 'nonquoted'}.csv`).then(

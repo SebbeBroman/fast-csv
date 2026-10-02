@@ -11,7 +11,7 @@ const rows = parseText('name,value\nAlice,1', { headers: true });
 // [{ name: 'Alice', value: '1' }]
 ```
 
-`parseText` parses an already-decoded string synchronously. It supports headers, quoting, custom delimiters/escapes, comments, trimming, skipping/limiting rows, and synchronous transforms/validation. `parseTextWithInfo` additionally returns headers, invalid rows with reasons, and row counts. File decoding is the caller's responsibility. The browser entry point exposes parsing; formatting remains in the Node API.
+`parseText` parses an already-decoded string synchronously. It supports headers, quoting, custom delimiters/escapes, comments, trimming, skipping/limiting rows, and synchronous transforms/validation. `parseTextWithInfo` additionally returns headers, invalid rows with reasons, and row counts. File decoding is the caller's responsibility. The browser entry point also exports `writeToString(rows, options)`, which returns a Promise of CSV text without Node streams. Parser-only imports drop the formatter when bundled.
 
 <p align="center">
   <a href="https://c2fo.github.io/fast-csv" target="blank"><img src="https://c2fo.github.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
