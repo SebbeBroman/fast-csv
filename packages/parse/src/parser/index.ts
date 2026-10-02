@@ -1,5 +1,5 @@
-export { Parser } from './Parser';
-export { RowParser } from './RowParser';
-export { Scanner } from './Scanner';
-export { Token, MaybeToken } from './Token';
-export { ColumnParser, NonQuotedColumnParser, QuotedColumnParser } from './column';
+export { Parser } from './Parser.js';
+export { RowParser } from './RowParser.js';
+export { Scanner } from './Scanner.js';
+export { Token, MaybeToken } from './Token.js';
+export { ColumnParser, NonQuotedColumnParser, QuotedColumnParser } from './column/index.js';

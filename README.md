@@ -1,3 +1,5 @@
+> This local fork includes the parser speedup, ESM-only packages, and a browser parser without Node dependencies. See [browser usage and fork notes](BROWSER.md).
+
 <p align="center">
   <a href="https://c2fo.github.io/fast-csv" target="blank"><img src="https://c2fo.github.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
 </p>

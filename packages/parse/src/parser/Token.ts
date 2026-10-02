@@ -1,4 +1,4 @@
-import { ParserOptions } from '../ParserOptions';
+import { ParserOptions } from '../ParserOptions.js';
 
 export type MaybeToken = Token | null;
 

@@ -1,6 +1,6 @@
-import { FormatterOptions } from '../FormatterOptions';
-import { FieldFormatter } from './FieldFormatter';
-import { isSyncTransform, Row, RowArray, RowHashArray, RowTransformCallback, RowTransformFunction } from '../types';
+import { FormatterOptions } from '../FormatterOptions.js';
+import { FieldFormatter } from './FieldFormatter.js';
+import { isSyncTransform, Row, RowArray, RowHashArray, RowTransformCallback, RowTransformFunction } from '../types.js';
 
 type RowFormatterTransform<I extends Row, O extends Row> = (row: I, cb: RowTransformCallback<O>) => void;
 

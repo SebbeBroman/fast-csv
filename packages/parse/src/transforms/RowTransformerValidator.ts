@@ -7,7 +7,7 @@ import {
     isSyncTransform,
     AsyncRowTransform,
     RowTransformCallback,
-} from '../types';
+} from '../types.js';
 
 type RowValidator<R extends Row> = (row: R, cb: RowValidatorCallback<R>) => void;
 

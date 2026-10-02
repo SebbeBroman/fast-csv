@@ -1,9 +1,9 @@
 import { StringDecoder } from 'string_decoder';
 import { Transform, TransformCallback } from 'stream';
-import { ParserOptions } from './ParserOptions';
-import { HeaderTransformer, RowTransformerValidator } from './transforms';
-import { Parser } from './parser';
-import { Row, RowArray, RowTransformFunction, RowValidate, RowValidatorCallback } from './types';
+import { ParserOptions } from './ParserOptions.js';
+import { HeaderTransformer, RowTransformerValidator } from './transforms/index.js';
+import { Parser } from './parser/index.js';
+import { Row, RowArray, RowTransformFunction, RowValidate, RowValidatorCallback } from './types.js';
 
 export class CsvParserStream<I extends Row, O extends Row> extends Transform {
     private readonly parserOptions: ParserOptions;

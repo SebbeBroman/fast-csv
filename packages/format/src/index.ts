@@ -1,13 +1,13 @@
 import { promisify } from 'util';
 import { Writable } from 'stream';
 import * as fs from 'fs';
-import { Row } from './types';
-import { FormatterOptions, FormatterOptionsArgs } from './FormatterOptions';
-import { CsvFormatterStream } from './CsvFormatterStream';
+import { Row } from './types.js';
+import { FormatterOptions, FormatterOptionsArgs } from './FormatterOptions.js';
+import { CsvFormatterStream } from './CsvFormatterStream.js';
 
-export * from './types';
-export { CsvFormatterStream } from './CsvFormatterStream';
-export { FormatterOptions, FormatterOptionsArgs } from './FormatterOptions';
+export * from './types.js';
+export { CsvFormatterStream } from './CsvFormatterStream.js';
+export { FormatterOptions, FormatterOptionsArgs } from './FormatterOptions.js';
 
 export const format = <I extends Row, O extends Row>(
     options?: FormatterOptionsArgs<I, O>,

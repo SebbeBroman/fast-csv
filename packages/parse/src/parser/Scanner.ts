@@ -1,5 +1,5 @@
-import { ParserOptions } from '../ParserOptions';
-import { MaybeToken, Token } from './Token';
+import { ParserOptions } from '../ParserOptions.js';
+import { MaybeToken, Token } from './Token.js';
 
 /** JS `\s` minus LF/CR — those stay tokens. */
 const isSkippableWhitespace = (code: number): boolean => {

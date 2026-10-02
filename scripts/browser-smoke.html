@@ -1,0 +1,68 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>fast-csv browser verification</title>
+<script type="importmap">
+    {
+        "imports": {
+            "@fast-csv/parse/browser": "/packages/parse/build/esm/src/browser.js"
+        }
+    }
+</script>
+<h1>Browser verification</h1>
+<pre id="results">Running…</pre>
+<script type="module">
+    import { parseText, parseTextWithInfo } from '/packages/fast-csv/build/esm/src/browser.js';
+    const results = document.querySelector('#results');
+    const check = (actual, expected) => {
+        if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+            throw new Error(`Expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+        }
+    };
+    try {
+        check(parseText('"hé😀","a""b"\r\n'), [['hé😀', 'a"b']]);
+        check(parseText('name,value\nAlice,1', { headers: true }), [{ name: 'Alice', value: '1' }]);
+        check(parseText('#comment\r\na\n', { comment: '#' }), [['a']]);
+        check(
+            parseTextWithInfo('a,b\nx', { headers: true, strictColumnHandling: true }).invalidRows[0].reason,
+            'Column header mismatch expected: 2 columns got: 1',
+        );
+        check(
+            parseText('a\n1\n2', {
+                headers: true,
+                transform: (row) => ({ value: Number(row.a) }),
+                validate: (row) => row.value > 1,
+            }),
+            [{ value: 2 }],
+        );
+        let malformed = false;
+        try {
+            parseText('"unterminated');
+        } catch {
+            malformed = true;
+        }
+        check(malformed, true);
+        const timings = [];
+        for (const quoted of [false, true]) {
+            const asset = await fetch(`/examples/benchmark/assets/1000.${quoted ? 'quoted' : 'nonquoted'}.csv`).then(
+                (response) => response.text(),
+            );
+            for (const rows of [20, 100, 400]) {
+                const input = asset
+                    .split('\n')
+                    .slice(0, rows + 1)
+                    .join('\n');
+                for (let i = 0; i < 200; i++) parseText(input, { headers: true });
+                const start = performance.now();
+                for (let i = 0; i < 1000; i++) {
+                    if (parseText(input, { headers: true }).length !== rows) throw new Error('Row count mismatch');
+                }
+                timings.push({ rows, quoted, meanMs: (performance.now() - start) / 1000 });
+            }
+        }
+        results.textContent = `PASS: native browser ESM, no Node polyfills\n${navigator.userAgent}\n${JSON.stringify(timings, null, 2)}`;
+        document.title = 'PASS: fast-csv browser verification';
+    } catch (error) {
+        results.textContent = `FAIL: ${error.stack}`;
+        document.title = 'FAIL: fast-csv browser verification';
+    }
+</script>

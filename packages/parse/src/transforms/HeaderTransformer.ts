@@ -1,4 +1,4 @@
-import { ParserOptions } from '../ParserOptions';
+import { ParserOptions } from '../ParserOptions.js';
 import {
     HeaderArray,
     HeaderTransformFunction,
@@ -7,7 +7,7 @@ import {
     RowMap,
     RowValidationResult,
     RowValidatorCallback,
-} from '../types';
+} from '../types.js';
 
 export class HeaderTransformer<O extends Row> {
     private readonly parserOptions: ParserOptions;
@@ -36,10 +36,14 @@ export class HeaderTransformer<O extends Row> {
     }
 
     public transform(row: RowArray, cb: RowValidatorCallback<O>): void {
+        return cb(null, this.transformRow(row));
+    }
+
+    public transformRow(row: RowArray): RowValidationResult<O> {
         if (!this.shouldMapRow(row)) {
-            return cb(null, { row: null, isValid: true });
+            return { row: null, isValid: true };
         }
-        return cb(null, this.processRow(row));
+        return this.processRow(row);
     }
 
     private shouldMapRow(row: Row): boolean {

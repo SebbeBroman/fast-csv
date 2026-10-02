@@ -1,0 +1,42 @@
+{
+    "date": "2026-10-02",
+    "browser": "Chrome/154.0.0.0 (Codex in-app browser, macOS)",
+    "moduleFormat": "native ESM, no Node polyfills",
+    "warmups": 200,
+    "runs": 1000,
+    "options": {
+        "headers": true
+    },
+    "results": [
+        {
+            "rows": 20,
+            "quoted": false,
+            "meanMs": 0.0057
+        },
+        {
+            "rows": 100,
+            "quoted": false,
+            "meanMs": 0.0159
+        },
+        {
+            "rows": 400,
+            "quoted": false,
+            "meanMs": 0.0576
+        },
+        {
+            "rows": 20,
+            "quoted": true,
+            "meanMs": 0.0106
+        },
+        {
+            "rows": 100,
+            "quoted": true,
+            "meanMs": 0.0483
+        },
+        {
+            "rows": 400,
+            "quoted": true,
+            "meanMs": 0.1906
+        }
+    ]
+}

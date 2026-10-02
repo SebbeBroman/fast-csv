@@ -1,2 +1,2 @@
-export { RowFormatter } from './RowFormatter';
-export { FieldFormatter } from './FieldFormatter';
+export { RowFormatter } from './RowFormatter.js';
+export { FieldFormatter } from './FieldFormatter.js';

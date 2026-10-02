@@ -11,14 +11,14 @@
     "author": "doug-martin <doug@dougamartin.com>",
     "homepage": "https://c2fo.github.io/fast-csv/docs/parsing/getting-started",
     "license": "MIT",
-    "main": "build/src/index.js",
-    "types": "build/src/index.d.ts",
+    "main": "./build/esm/src/index.js",
+    "types": "./build/esm/src/index.d.ts",
     "directories": {
         "lib": "src",
         "test": "__tests__"
     },
     "files": [
-        "build/src/**"
+        "build/esm/**"
     ],
     "publishConfig": {
         "access": "public"
@@ -32,7 +32,7 @@
         "prepublishOnly": "pnpm run build",
         "build": "pnpm run clean && pnpm run compile",
         "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
-        "compile": "tsc"
+        "compile": "tsc --noEmit && node ../../scripts/build-esm.cjs"
     },
     "bugs": {
         "url": "https://github.com/C2FO/fast-csv/issues"
@@ -41,5 +41,24 @@
         "@types/node": "24.12.3",
         "@types/sinon": "21.0.1",
         "sinon": "22.0.0"
+    },
+    "module": "./build/esm/src/index.js",
+    "exports": {
+        ".": {
+            "types": "./build/esm/src/index.d.ts",
+            "default": "./build/esm/src/index.js"
+        },
+        "./package.json": "./package.json",
+        "./browser": {
+            "types": "./build/esm/src/browser.d.ts",
+            "default": "./build/esm/src/browser.js"
+        }
+    },
+    "typesVersions": {
+        "*": {
+            "browser": [
+                "build/esm/src/browser.d.ts"
+            ]
+        }
     }
 }

@@ -1,5 +1,5 @@
-import { FormatterOptions } from '../FormatterOptions';
-import { Row } from '../types';
+import { FormatterOptions } from '../FormatterOptions.js';
+import { Row } from '../types.js';
 
 // TODO(major): use native RegExp.escape once engines require Node >=24 (available since Node 24)
 /** Escape special characters for use in a RegExp. */

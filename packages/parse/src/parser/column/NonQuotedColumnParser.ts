@@ -1,6 +1,6 @@
-import { ParserOptions } from '../../ParserOptions';
-import { ColumnFormatter } from './ColumnFormatter';
-import { Scanner } from '../Scanner';
+import { ParserOptions } from '../../ParserOptions.js';
+import { ColumnFormatter } from './ColumnFormatter.js';
+import { Scanner } from '../Scanner.js';
 
 export class NonQuotedColumnParser {
     private readonly delimiterCode: number;

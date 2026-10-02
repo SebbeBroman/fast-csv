@@ -1,6 +1,6 @@
-import { ColumnFormatter } from './ColumnFormatter';
-import { ParserOptions } from '../../ParserOptions';
-import { Scanner } from '../Scanner';
+import { ColumnFormatter } from './ColumnFormatter.js';
+import { ParserOptions } from '../../ParserOptions.js';
+import { Scanner } from '../Scanner.js';
 
 interface DataBetweenQuotes {
     foundClosingQuote: boolean;

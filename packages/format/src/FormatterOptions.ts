@@ -1,4 +1,4 @@
-import { Row, RowTransformFunction } from './types';
+import { Row, RowTransformFunction } from './types.js';
 
 interface QuoteColumnMap {
     [s: string]: boolean;

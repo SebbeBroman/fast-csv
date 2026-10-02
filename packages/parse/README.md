@@ -1,3 +1,18 @@
+## Local ESM/browser fork
+
+This fork includes the optimized parser and ships native ESM only. Node stream APIs remain available through the normal package import. Older CommonJS consumers must migrate to ESM or dynamic imports.
+
+For browser parsing, import the explicit browser subpath. It has no Node runtime dependencies or polyfills:
+
+```js
+import { parseText, parseTextWithInfo } from '@fast-csv/parse/browser';
+
+const rows = parseText('name,value\nAlice,1', { headers: true });
+// [{ name: 'Alice', value: '1' }]
+```
+
+`parseText` parses an already-decoded string synchronously. It supports headers, quoting, custom delimiters/escapes, comments, trimming, skipping/limiting rows, and synchronous transforms/validation. `parseTextWithInfo` additionally returns headers, invalid rows with reasons, and row counts. File decoding is the caller's responsibility. The browser entry point exposes parsing; formatting remains in the Node API.
+
 <p align="center">
   <a href="https://c2fo.github.io/fast-csv" target="blank"><img src="https://c2fo.github.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
 </p>

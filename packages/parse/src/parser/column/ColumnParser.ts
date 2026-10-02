@@ -1,7 +1,7 @@
-import { ParserOptions } from '../../ParserOptions';
-import { NonQuotedColumnParser } from './NonQuotedColumnParser';
-import { QuotedColumnParser } from './QuotedColumnParser';
-import { Scanner } from '../Scanner';
+import { ParserOptions } from '../../ParserOptions.js';
+import { NonQuotedColumnParser } from './NonQuotedColumnParser.js';
+import { QuotedColumnParser } from './QuotedColumnParser.js';
+import { Scanner } from '../Scanner.js';
 
 export class ColumnParser {
     private readonly quoteCode: number;

@@ -1,12 +1,12 @@
 import * as fs from 'fs';
 import { Readable } from 'stream';
-import { ParserOptions, ParserOptionsArgs } from './ParserOptions';
-import { CsvParserStream } from './CsvParserStream';
-import { Row } from './types';
+import { ParserOptions, ParserOptionsArgs } from './ParserOptions.js';
+import { CsvParserStream } from './CsvParserStream.js';
+import { Row } from './types.js';
 
-export * from './types';
-export { CsvParserStream } from './CsvParserStream';
-export { ParserOptions, ParserOptionsArgs } from './ParserOptions';
+export * from './types.js';
+export { CsvParserStream } from './CsvParserStream.js';
+export { ParserOptions, ParserOptionsArgs } from './ParserOptions.js';
 
 export const parse = <I extends Row, O extends Row>(args?: ParserOptionsArgs): CsvParserStream<I, O> => {
     return new CsvParserStream(new ParserOptions(args));

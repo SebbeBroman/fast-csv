@@ -1,4 +1,4 @@
-import { ParserOptions } from '../../ParserOptions';
+import { ParserOptions } from '../../ParserOptions.js';
 
 export class ColumnFormatter {
     public readonly format: (col: string) => string;

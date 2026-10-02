@@ -1,7 +1,7 @@
 import { Transform, TransformCallback } from 'stream';
-import { FormatterOptions } from './FormatterOptions';
-import { Row, RowTransformFunction } from './types';
-import { RowFormatter } from './formatter';
+import { FormatterOptions } from './FormatterOptions.js';
+import { Row, RowTransformFunction } from './types.js';
+import { RowFormatter } from './formatter/index.js';
 
 export class CsvFormatterStream<I extends Row, O extends Row> extends Transform {
     private formatterOptions: FormatterOptions<I, O>;

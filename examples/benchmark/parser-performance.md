@@ -49,8 +49,8 @@ From the repository root:
 
 ```sh
 pnpm --filter @fast-csv/parse run build
-node examples/benchmark/compare.js git:origin/main packages/parse/build/src
-node examples/benchmark/compare.js 'git:stash@{0}' packages/parse/build/src
+node examples/benchmark/compare.js git:origin/main packages/parse/build/esm/src
+node examples/benchmark/compare.js 'git:stash@{0}' packages/parse/build/esm/src
 ```
 
 `git:<ref>` compiles that source revision into a temporary directory without changing the checkout and removes the directory when finished. Both version arguments also accept compiled source directories. Pin the recorded commit hashes when reproducing after refs move.
@@ -81,5 +81,5 @@ For the public stream, wall time falls by about 21–25% at 20 rows, 41–42% at
 RSS at 20 rows is mixed and slightly higher for the candidate; at 400 rows, repeated public-stream parsing peaks at 101–104 MiB instead of 127–132 MiB. This does not imply that each 400-row table consumes that much memory. Core parsing alone is roughly 5–9× faster for unquoted fields and 3–4× faster for quoted fields.
 
 ```sh
-node examples/benchmark/compare.js git:origin/main packages/parse/build/src --small
+node examples/benchmark/compare.js git:origin/main packages/parse/build/esm/src --small
 ```

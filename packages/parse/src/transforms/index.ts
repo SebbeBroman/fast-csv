@@ -1,2 +1,2 @@
-export { RowTransformerValidator } from './RowTransformerValidator';
-export { HeaderTransformer } from './HeaderTransformer';
+export { RowTransformerValidator } from './RowTransformerValidator.js';
+export { HeaderTransformer } from './HeaderTransformer.js';

@@ -1,7 +1,7 @@
-import { Scanner } from './Scanner';
-import { ColumnParser } from './column';
-import { ParserOptions } from '../ParserOptions';
-import { RowArray } from '../types';
+import { Scanner } from './Scanner.js';
+import { ColumnParser } from './column/index.js';
+import { ParserOptions } from '../ParserOptions.js';
+import { RowArray } from '../types.js';
 
 const NON_WHITESPACE = /\S/;
 

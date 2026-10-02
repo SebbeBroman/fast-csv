@@ -1,7 +1,7 @@
-import { Scanner } from './Scanner';
-import { RowParser } from './RowParser';
-import { ParserOptions } from '../ParserOptions';
-import { RowArray } from '../types';
+import { Scanner } from './Scanner.js';
+import { RowParser } from './RowParser.js';
+import { ParserOptions } from '../ParserOptions.js';
+import { RowArray } from '../types.js';
 
 export interface ParseResult {
     line: string;
