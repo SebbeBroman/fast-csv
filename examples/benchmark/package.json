@@ -4,7 +4,7 @@
     "private": true,
     "description": "fast-csv examples",
     "dependencies": {
-        "fast-csv": "5.0.7"
+        "@sebbro/fast-csv": "workspace:*"
     },
     "scripts": {
         "benchmarks": "node ./index.js"

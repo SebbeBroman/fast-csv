@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as csv from 'fast-csv';
+import * as csv from '@sebbro/fast-csv/node';
 
 fs.createReadStream(path.resolve(__dirname, '..', 'assets', 'parse.csv'))
     .pipe(csv.parse({ headers: true }))

@@ -1,14 +1,7 @@
 <!doctype html>
 <meta charset="utf-8" />
-<title>fast-csv browser verification</title>
-<script type="importmap">
-    {
-        "imports": {
-            "@fast-csv/parse/browser": "/packages/parse/build/esm/src/browser.js",
-            "@fast-csv/format/browser": "/packages/format/build/esm/src/browser.js"
-        }
-    }
-</script>
+<title>@sebbro/fast-csv browser verification</title>
+
 <h1>Browser verification</h1>
 <pre id="results">Running…</pre>
 <script type="module">
@@ -63,9 +56,9 @@
             }
         }
         results.textContent = `PASS: native browser ESM, no Node polyfills\n${navigator.userAgent}\n${JSON.stringify(timings, null, 2)}`;
-        document.title = 'PASS: fast-csv browser verification';
+        document.title = 'PASS: @sebbro/fast-csv browser verification';
     } catch (error) {
         results.textContent = `FAIL: ${error.stack}`;
-        document.title = 'FAIL: fast-csv browser verification';
+        document.title = 'FAIL: @sebbro/fast-csv browser verification';
     }
 </script>

@@ -1,3 +1,5 @@
+> Private source workspace for `@sebbro/fast-csv`; this package is not published separately. Browser consumers should import `@sebbro/fast-csv/browser`.
+
 ## Local ESM/browser fork
 
 This fork ships native ESM only. Browser formatting has no Node dependencies or polyfills:

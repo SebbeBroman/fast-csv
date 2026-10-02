@@ -1,25 +1,26 @@
 {
-    "name": "fast-csv",
-    "version": "5.0.7",
-    "description": "CSV parser and writer",
+    "name": "@sebbro/fast-csv",
+    "version": "1.0.0",
+    "description": "ESM-only CSV parser and formatter for browsers and Node.js, forked from fast-csv",
     "main": "./build/esm/src/index.js",
     "types": "./build/esm/src/index.d.ts",
     "scripts": {
         "prepublishOnly": "pnpm run build",
         "build": "pnpm run clean && pnpm run compile",
         "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
-        "compile": "tsc --noEmit && node ../../scripts/build-esm.cjs"
+        "compile": "node ../../scripts/build-fork.cjs"
     },
     "directories": {
         "lib": "src",
         "test": "__tests__"
     },
     "files": [
-        "build/esm/**"
+        "build/esm/**",
+        "CHANGELOG.md"
     ],
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/C2FO/fast-csv.git",
+        "url": "git+https://github.com/SebbeBroman/fast-csv.git",
         "directory": "packages/fast-csv"
     },
     "keywords": [
@@ -30,15 +31,11 @@
         "csv writer",
         "CSV"
     ],
-    "homepage": "https://c2fo.github.io/fast-csv",
+    "homepage": "https://github.com/SebbeBroman/fast-csv#readme",
     "author": "Doug Martin",
     "license": "MIT",
     "engines": {
         "node": ">=20.0.0"
-    },
-    "dependencies": {
-        "@fast-csv/format": "5.0.7",
-        "@fast-csv/parse": "5.0.7"
     },
     "module": "./build/esm/src/index.js",
     "exports": {
@@ -50,14 +47,37 @@
         "./browser": {
             "types": "./build/esm/src/browser.d.ts",
             "default": "./build/esm/src/browser.js"
+        },
+        "./node": {
+            "types": "./build/esm/src/index.d.ts",
+            "default": "./build/esm/src/index.js"
         }
     },
     "typesVersions": {
         "*": {
             "browser": [
                 "build/esm/src/browser.d.ts"
+            ],
+            "node": [
+                "build/esm/src/index.d.ts"
             ]
         }
     },
-    "sideEffects": false
+    "sideEffects": false,
+    "type": "module",
+    "bugs": {
+        "url": "https://github.com/SebbeBroman/fast-csv/issues"
+    },
+    "contributors": [
+        {
+            "name": "sebbro"
+        }
+    ],
+    "devDependencies": {
+        "@fast-csv/parse": "workspace:*",
+        "@fast-csv/format": "workspace:*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

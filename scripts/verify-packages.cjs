@@ -5,43 +5,20 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const ts = require('typescript');
 const root = path.resolve(__dirname, '..');
-const packages = { parse: '@fast-csv/parse', format: '@fast-csv/format', 'fast-csv': 'fast-csv' };
-
-for (const [directory, name] of Object.entries(packages)) {
-    const cwd = path.join(root, 'packages', directory);
-    const script = `
-        import assert from 'node:assert/strict';
-        import * as csv from ${JSON.stringify(name)};
-        ${
-            directory === 'parse' || directory === 'fast-csv'
-                ? `
-            const rows = [];
-            const stream = csv.parseString('a,b\\nx,y', { headers: true });
-            for await (const row of stream) rows.push(row);
-            assert.deepEqual(rows, [{ a: 'x', b: 'y' }]);
-            const browser = await import(${JSON.stringify(`${name}/browser`)});
-            assert.deepEqual(browser.parseText('a,b'), [['a', 'b']]);
-        `
-                : ''
-        }
-        ${
-            directory === 'format' || directory === 'fast-csv'
-                ? `
-            assert.equal(await csv.writeToString([['a', 'b']]), 'a,b');
-            const browserFormat = await import(${JSON.stringify(`${name}/browser`)});
-            assert.equal(await browserFormat.writeToString([['a,b', 'c']]), '"a,b",c');
-        `
-                : ''
-        }
-    `;
-    execFileSync(process.execPath, ['--input-type=module', '-e', script], { cwd, stdio: 'inherit' });
-    assert.ok(!fs.existsSync(path.join(cwd, 'build/src')), 'Unexpected CommonJS output');
-    assert.equal(
-        fs.readFileSync(path.join(cwd, 'build/esm/LICENSE'), 'utf8'),
-        fs.readFileSync(path.join(root, 'LICENSE'), 'utf8'),
-    );
-    console.log(`${name}: native ESM exports pass; no CommonJS output`);
+const directory = path.join(root, 'packages/fast-csv');
+const manifest = JSON.parse(fs.readFileSync(path.join(directory, 'package.json'), 'utf8'));
+assert.equal(manifest.name, '@sebbro/fast-csv');
+assert.equal(manifest.type, 'module');
+assert.equal(manifest.private, undefined);
+assert.deepEqual(manifest.dependencies ?? {}, {});
+for (const name of ['parse', 'format']) {
+    assert.equal(JSON.parse(fs.readFileSync(path.join(root, 'packages', name, 'package.json'))).private, true);
 }
+assert.ok(!fs.existsSync(path.join(directory, 'build/src')), 'Unexpected CommonJS output');
+assert.equal(
+    fs.readFileSync(path.join(directory, 'build/esm/LICENSE'), 'utf8'),
+    fs.readFileSync(path.join(root, 'LICENSE'), 'utf8'),
+);
 
 const visited = new Set();
 function checkBrowserGraph(file) {
@@ -57,66 +34,108 @@ function checkBrowserGraph(file) {
         }
         if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier) {
             const specifier = node.moduleSpecifier.text;
-            if (specifier === '@fast-csv/parse/browser' || specifier === '@fast-csv/format/browser') {
-                const directory = specifier.includes('/parse/') ? 'parse' : 'format';
-                checkBrowserGraph(path.join(root, `packages/${directory}/build/esm/src/browser.js`));
-            } else {
-                assert.ok(specifier.startsWith('.'), `${file}: external runtime dependency ${specifier}`);
-                checkBrowserGraph(path.resolve(path.dirname(file), specifier));
-            }
+            assert.ok(specifier.startsWith('.'), `${file}: external runtime dependency ${specifier}`);
+            checkBrowserGraph(path.resolve(path.dirname(file), specifier));
         }
         ts.forEachChild(node, visit);
     }
     visit(source);
 }
-checkBrowserGraph(path.join(root, 'packages/fast-csv/build/esm/src/browser.js'));
+checkBrowserGraph(path.join(directory, 'build/esm/src/browser.js'));
 console.log(`Browser graph: ${visited.size} modules, no Node imports/globals or external runtime dependencies`);
 
-const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'fast-csv-browser-types-'));
+const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'sebbro-fast-csv-package-'));
 try {
-    fs.mkdirSync(path.join(temporary, 'node_modules/@fast-csv'), { recursive: true });
-    fs.symlinkSync(path.join(root, 'packages/format'), path.join(temporary, 'node_modules/@fast-csv/format'));
-    fs.symlinkSync(path.join(root, 'packages/parse'), path.join(temporary, 'node_modules/@fast-csv/parse'));
-    fs.symlinkSync(path.join(root, 'packages/fast-csv'), path.join(temporary, 'node_modules/fast-csv'));
+    const packed = JSON.parse(
+        execFileSync('pnpm', ['pack', '--json', '--pack-destination', temporary], {
+            cwd: directory,
+            encoding: 'utf8',
+        }),
+    );
+    assert.equal(packed.version, manifest.version);
+    assert.ok(packed.files.some((file) => file.path.endsWith('/LICENSE')));
+    for (const file of packed.files) {
+        if (file.path.endsWith('.d.ts')) {
+            assert.ok(
+                !fs.readFileSync(path.join(directory, file.path), 'utf8').includes('@fast-csv/'),
+                `${file.path}: upstream declaration dependency`,
+            );
+        }
+    }
+    fs.writeFileSync(path.join(temporary, 'package.json'), '{"private":true,"type":"module"}');
+    execFileSync(
+        'npm',
+        [
+            'install',
+            '--offline',
+            '--ignore-scripts',
+            '--no-audit',
+            '--no-fund',
+            path.resolve(temporary, packed.filename),
+        ],
+        { cwd: temporary, stdio: 'pipe' },
+    );
+    assert.ok(!fs.existsSync(path.join(temporary, 'node_modules/@fast-csv')));
+    const consumerScript = `
+        import assert from 'node:assert/strict';
+        import * as csv from '@sebbro/fast-csv';
+        import * as node from '@sebbro/fast-csv/node';
+        import * as browser from '@sebbro/fast-csv/browser';
+        import { createRequire } from 'node:module';
+        const manifest = createRequire(import.meta.url)('@sebbro/fast-csv/package.json');
+        assert.equal(manifest.name, '@sebbro/fast-csv');
+        assert.equal(csv.parseString, node.parseString);
+        const rows = [];
+        for await (const row of node.parseString('a,b\\nx,y', { headers: true })) rows.push(row);
+        assert.deepEqual(rows, [{ a: 'x', b: 'y' }]);
+        assert.equal(await node.writeToString([['a,b', 'c']]), '"a,b",c');
+        assert.deepEqual(browser.parseText('a,b'), [['a', 'b']]);
+        assert.equal(await browser.writeToString([['a,b', 'c']]), '"a,b",c');
+        assert.equal(await browser.writeToString([['x']], { transform: (row, cb) => queueMicrotask(() => cb(null, [row[0].toUpperCase()])) }), 'X');
+    `;
+    execFileSync(process.execPath, ['--input-type=module', '-e', consumerScript], { cwd: temporary, stdio: 'inherit' });
     fs.writeFileSync(
         path.join(temporary, 'consumer.mts'),
         `
-        import { parseText, parseTextWithInfo, writeToString } from 'fast-csv/browser';
-        const rows = parseText('a,b');
-        const cell: string = rows[0][0];
-        const objects = parseText<{ name: string }>('name\\nAlice', { headers: true });
-        const name: string = objects[0].name;
-        const inferred = parseText('name\\nAlice', { headers: true });
-        const inferredName: string = inferred[0].name;
-        void inferredName;
+        import { parseText, parseTextWithInfo, writeToString } from '@sebbro/fast-csv/browser';
+        const cell: string = parseText('a,b')[0][0];
+        const name: string = parseText('name\\nAlice', { headers: true })[0].name;
+        const typedName: string = parseText<{ name: string }>('name\\nAlice', { headers: true })[0].name;
         const formatted: Promise<string> = writeToString([{ name: 'Alice' }], { headers: true });
-        void formatted;
-        const result = parseTextWithInfo('a,b');
-        const count: number = result.rowCount;
-        void cell; void name; void count;
+        const count: number = parseTextWithInfo('a,b').rowCount;
+        void cell; void name; void typedName; void formatted; void count;
     `,
     );
-    fs.writeFileSync(
-        path.join(temporary, 'tsconfig.json'),
-        JSON.stringify({
-            compilerOptions: {
-                module: 'NodeNext',
-                moduleResolution: 'NodeNext',
-                target: 'ES2022',
-                lib: ['ES2022', 'DOM'],
-                types: [],
-                strict: true,
-                noEmit: true,
-            },
-            include: ['consumer.mts'],
-        }),
+    for (const [module, moduleResolution] of [
+        ['NodeNext', 'NodeNext'],
+        ['ES2022', 'bundler'],
+        ['ES2022', 'node'],
+    ]) {
+        fs.writeFileSync(
+            path.join(temporary, 'tsconfig.json'),
+            JSON.stringify({
+                compilerOptions: {
+                    module,
+                    moduleResolution,
+                    target: 'ES2022',
+                    lib: ['ES2022', 'DOM'],
+                    types: [],
+                    strict: true,
+                    noEmit: true,
+                },
+                include: ['consumer.mts'],
+            }),
+        );
+        execFileSync(
+            process.execPath,
+            [require.resolve('typescript/bin/tsc'), '-p', path.join(temporary, 'tsconfig.json')],
+            { stdio: 'inherit' },
+        );
+    }
+    console.log(
+        `Packed ${manifest.name}@${manifest.version}: root, /node, /browser exports and browser declarations pass; no upstream packages installed`,
     );
-    execFileSync(
-        process.execPath,
-        [require.resolve('typescript/bin/tsc'), '-p', path.join(temporary, 'tsconfig.json')],
-        { stdio: 'inherit' },
-    );
-    console.log('Browser consumer declarations: compile with types: [] and no @types/node');
+    console.log(`Package archive: ${fs.statSync(path.resolve(temporary, packed.filename)).size} bytes`);
 } finally {
     fs.rmSync(temporary, { recursive: true, force: true });
 }

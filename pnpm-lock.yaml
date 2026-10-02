@@ -129,8 +129,8 @@ importers:
 
   examples/benchmark:
     dependencies:
-      fast-csv:
-        specifier: 5.0.7
+      '@sebbro/fast-csv':
+        specifier: workspace:*
         version: link:../../packages/fast-csv
 
   examples/example-runner:
@@ -153,21 +153,21 @@ importers:
 
   examples/fast-csv-js:
     dependencies:
+      '@sebbro/fast-csv':
+        specifier: workspace:*
+        version: link:../../packages/fast-csv
       example-runner:
         specifier: 5.0.7
         version: link:../example-runner
-      fast-csv:
-        specifier: 5.0.7
-        version: link:../../packages/fast-csv
 
   examples/fast-csv-ts:
     dependencies:
+      '@sebbro/fast-csv':
+        specifier: workspace:*
+        version: link:../../packages/fast-csv
       example-runner:
         specifier: 5.0.7
         version: link:../example-runner
-      fast-csv:
-        specifier: 5.0.7
-        version: link:../../packages/fast-csv
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -175,7 +175,7 @@ importers:
   examples/formatting-js:
     dependencies:
       '@fast-csv/format':
-        specifier: 5.0.7
+        specifier: workspace:*
         version: link:../../packages/format
       example-runner:
         specifier: 5.0.7
@@ -184,7 +184,7 @@ importers:
   examples/formatting-ts:
     dependencies:
       '@fast-csv/format':
-        specifier: 5.0.7
+        specifier: workspace:*
         version: link:../../packages/format
       example-runner:
         specifier: 5.0.7
@@ -196,7 +196,7 @@ importers:
   examples/parsing-js:
     dependencies:
       '@fast-csv/parse':
-        specifier: 5.0.7
+        specifier: workspace:*
         version: link:../../packages/parse
       example-runner:
         specifier: 5.0.7
@@ -205,7 +205,7 @@ importers:
   examples/parsing-ts:
     dependencies:
       '@fast-csv/parse':
-        specifier: 5.0.7
+        specifier: workspace:*
         version: link:../../packages/parse
       example-runner:
         specifier: 5.0.7
@@ -215,12 +215,12 @@ importers:
         version: 5.9.3
 
   packages/fast-csv:
-    dependencies:
+    devDependencies:
       '@fast-csv/format':
-        specifier: 5.0.7
+        specifier: workspace:*
         version: link:../format
       '@fast-csv/parse':
-        specifier: 5.0.7
+        specifier: workspace:*
         version: link:../parse
 
   packages/format:

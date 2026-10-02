@@ -61,5 +61,6 @@
             ]
         }
     },
-    "sideEffects": false
+    "sideEffects": false,
+    "private": true
 }

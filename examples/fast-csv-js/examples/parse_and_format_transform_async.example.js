@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const csv = require('fast-csv');
+const csv = require('@sebbro/fast-csv/node');
 const User = require('./models/user');
 
 fs.createReadStream(path.resolve(__dirname, 'assets', 'snake_case_users.csv'))

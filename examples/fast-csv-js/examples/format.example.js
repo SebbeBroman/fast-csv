@@ -1,4 +1,4 @@
-const csv = require('fast-csv');
+const csv = require('@sebbro/fast-csv/node');
 
 const csvStream = csv.format({ headers: true });
 

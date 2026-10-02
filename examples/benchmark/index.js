@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const fastCsv = require('fast-csv');
+const fastCsv = require('@sebbro/fast-csv/node');
 
 function camelize(str) {
     return str.replace(/_(.)/g, (a, b) => b.toUpperCase());

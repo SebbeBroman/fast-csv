@@ -9,7 +9,7 @@
         "example": "run-examples run"
     },
     "dependencies": {
-        "@fast-csv/parse": "5.0.7",
+        "@fast-csv/parse": "workspace:*",
         "example-runner": "5.0.7"
     }
 }

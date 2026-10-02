@@ -1,17 +1,8 @@
 [
     {
-        "package": "@fast-csv/parse",
-        "tarballBytes": 21468,
-        "unpackedBytes": 95753
-    },
-    {
-        "package": "@fast-csv/format",
-        "tarballBytes": 11201,
-        "unpackedBytes": 41782
-    },
-    {
-        "package": "fast-csv",
-        "tarballBytes": 3103,
-        "unpackedBytes": 7086
+        "package": "@sebbro/fast-csv",
+        "version": "1.0.0",
+        "tarballBytes": 46061,
+        "unpackedBytes": 215984
     }
 ]

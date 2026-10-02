@@ -5,13 +5,20 @@ const zlib = require('node:zlib');
 const esbuild = require('esbuild');
 const root = path.resolve(__dirname, '..');
 const scenarios = [
-    ['browser parser', 'export { parseText, parseTextWithInfo } from "@fast-csv/parse/browser";', 'browser'],
-    ['browser formatter', 'export { writeToString } from "@fast-csv/format/browser";', 'browser'],
-    ['browser umbrella: parser only', 'export { parseText, parseTextWithInfo } from "fast-csv/browser";', 'browser'],
-    ['browser umbrella: all exports', 'export * from "fast-csv/browser";', 'browser'],
-    ['unused browser import', 'import { parseText } from "fast-csv/browser"; export const answer = 42;', 'browser'],
-    ['Node parser', 'export * from "@fast-csv/parse";', 'node'],
-    ['Node umbrella', 'export * from "fast-csv";', 'node'],
+    ['browser parser', 'export { parseText, parseTextWithInfo } from "@sebbro/fast-csv/browser";', 'browser'],
+    ['browser formatter', 'export { writeToString } from "@sebbro/fast-csv/browser";', 'browser'],
+    ['browser: all exports', 'export * from "@sebbro/fast-csv/browser";', 'browser'],
+    [
+        'unused browser import',
+        'import { parseText } from "@sebbro/fast-csv/browser"; export const answer = 42;',
+        'browser',
+    ],
+    [
+        'Node parser',
+        'export { parse, parseString, parseStream, parseFile, ParserOptions, CsvParserStream } from "@sebbro/fast-csv/node";',
+        'node',
+    ],
+    ['Node: all exports', 'export * from "@sebbro/fast-csv/node";', 'node'],
 ];
 async function main() {
     const results = [];

@@ -1,10 +1,9 @@
 # Browser CSV in this fork
 
-This fork ships ESM-only packages, keeps the optimized CSV parser, and adds browser parsing and formatting entry points. It parses already-decoded strings without Node streams, filesystem APIs, Buffer, process, or runtime dependencies. It also works inside a Web Worker.
+The `@sebbro/fast-csv` fork ships one ESM-only package, keeps the optimized CSV parser, and adds browser parsing and formatting entry points. It parses already-decoded strings without Node streams, filesystem APIs, Buffer, process, or runtime dependencies. It also works inside a Web Worker.
 
 ```ts
-import { parseText, parseTextWithInfo } from 'fast-csv/browser';
-// Or import from '@fast-csv/parse/browser' to depend only on the parser package.
+import { parseText, parseTextWithInfo } from '@sebbro/fast-csv/browser';
 
 const rows = parseText('name,value\nAlice,1\nBob,2', { headers: true });
 // [{ name: 'Alice', value: '1' }, { name: 'Bob', value: '2' }]
@@ -32,8 +31,7 @@ Parser transforms and validators are synchronous; Promise-returning callbacks th
 This API parses the complete string before mapping/filtering rows. `maxRows` limits processed data rows; it does not limit scanning the input. It is intended for small and moderate tables. Use a worker for large inputs if parsing would otherwise block the UI. Decoding files and network responses is the caller's responsibility (`File.text()`, `Response.text()`, or `TextDecoder`). Node file APIs, streams, encoding selection, and callback-based asynchronous transforms are not part of this browser entry point. Browser formatting uses the existing formatter rules, including headers, escaping, BOMs, and synchronous or callback-based transforms:
 
 ```ts
-import { writeToString } from 'fast-csv/browser';
-// Or import from '@fast-csv/format/browser'.
+import { writeToString } from '@sebbro/fast-csv/browser';
 const exported = await writeToString(imported, { headers: true });
 ```
 
@@ -43,38 +41,38 @@ The parser speedup is already included. [Benchmarks](examples/benchmark/parser-p
 
 ## Bundle size
 
-The browser parser is 9.8 kB minified / 3.3 kB gzip / 3.0 kB Brotli. Parser and formatter together are 14.4 kB / 4.6 kB / 4.2 kB. Parser-only imports from `fast-csv/browser` remove the formatter. These are ES2022 production bundles with no Node polyfills, source maps, or application code. [Measurements and reproduction](examples/benchmark/bundle-size.md). [Further optimizations](examples/benchmark/browser-optimization.md) include CPU, time, and RSS comparisons for 20–400 rows.
+The browser parser is 9.8 kB minified / 3.3 kB gzip / 3.0 kB Brotli. Parser and formatter together are 14.4 kB / 4.6 kB / 4.2 kB. Parser-only imports from `@sebbro/fast-csv/browser` remove the formatter. These are ES2022 production bundles with no Node polyfills, source maps, or application code. [Measurements and reproduction](examples/benchmark/bundle-size.md). [Further optimizations](examples/benchmark/browser-optimization.md) include CPU, time, and RSS comparisons for 20–400 rows.
 
 ## ESM-only packaging
 
-All three packages ship native ESM JavaScript and TypeScript declarations. The Node root exports retain the parsing/formatting stream APIs; import them with ESM:
+One package ships native ESM JavaScript and TypeScript declarations, with no runtime dependencies. The `/node` exports retain the parsing/formatting stream APIs; import them with ESM:
 
 ```js
-import { parseString, writeToString } from 'fast-csv';
+import { parseString, writeToString } from '@sebbro/fast-csv/node';
 ```
 
-No CommonJS build is shipped, and historical deep imports into `build/src` are not supported. Existing CommonJS consumers must migrate to `import`/dynamic `import()`, or use a Node version that supports loading synchronous ESM with `require()`. Browser imports use the explicit `/browser` subpath; importing the Node root still brings Node stream/filesystem dependencies. The umbrella browser entry point exposes parsing and formatting. Imports are tree-shaken, so parser-only consumers do not bundle the formatter.
+No CommonJS build is shipped, and historical deep imports into `build/src` are not supported. Existing CommonJS consumers must migrate to `import`/dynamic `import()`, or use a Node version that supports loading synchronous ESM with `require()`. The package root aliases `/node`. Browser imports use the explicit `/browser` subpath; importing the Node root still brings Node stream/filesystem dependencies. The browser entry point exposes parsing and formatting. Imports are tree-shaken, so parser-only consumers do not bundle the formatter.
 
-To use this local fork without publishing, build and pack all three packages, then install all three generated archives in your application:
+To use this local fork without publishing, build and pack one package, then install its archive in your application:
 
 ```sh
-pnpm -r --filter './packages/*' run build
-pnpm -r --filter './packages/*' pack --pack-destination /tmp/fast-csv-fork
-npm install /tmp/fast-csv-fork/fast-csv-parse-5.0.7.tgz /tmp/fast-csv-fork/fast-csv-format-5.0.7.tgz /tmp/fast-csv-fork/fast-csv-5.0.7.tgz
+pnpm --filter @sebbro/fast-csv run build
+pnpm --filter @sebbro/fast-csv pack --pack-destination /tmp/fast-csv-fork
+npm install /tmp/fast-csv-fork/sebbro-fast-csv-1.0.0.tgz
 ```
 
-Installing only the umbrella archive can resolve its dependencies to upstream packages; install the parser and formatter archives too. For a parser-only browser application, install just the parser archive and import `@fast-csv/parse/browser`.
+The private parser/formatter workspaces are compiled into the package. The archive needs no upstream packages. Version `1.0.0` starts this fork's independent version history.
 
 ## Development checks
 
 ```sh
-pnpm -r --filter './packages/*' run build
+pnpm --filter @sebbro/fast-csv run build
 pnpm exec jest --runInBand
 node scripts/verify-packages.cjs
 pnpm run bundle:size
 python3 -m http.server 8765 --bind 127.0.0.1
 ```
 
-Open `http://127.0.0.1:8765/scripts/browser-smoke.html` for the native browser check. The import map in that development page connects the umbrella package to the local parser and formatter builds; bundlers resolve the package subpath directly. The package verification script checks runtime exports, traverses the entire browser module graph to reject Node imports/globals, and type-checks browser consumers without Node declarations.
+Open `http://127.0.0.1:8765/scripts/browser-smoke.html` for the native browser check. The development page loads the single package build and its relative internal modules; bundlers resolve the browser subpath directly. The package verification script checks runtime exports, traverses the entire browser module graph to reject Node imports/globals, and type-checks browser consumers without Node declarations.
 
-The existing upstream package names are retained for local development. Nothing is published by building or verifying this fork. Choose a separate package scope/version before any public release.
+Only `@sebbro/fast-csv` is publishable; the source parser/formatter packages remain private. Building, verifying, and packing do not publish or push anything.

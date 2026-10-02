@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.0 (unreleased fork)
+
+- Publishable package renamed to `@sebbro/fast-csv`, with self-contained native ESM, TypeScript declarations, and no runtime dependencies.
+- Added explicit `/browser` and `/node` entry points; the root retains the Node API.
+- Included optimized cursor parsing, browser text parsing/formatting, and fixes for header names and custom formatter characters.
+- Upstream parser/formatter workspaces are private; their implementations are included in the one package archive.
+
+The entries below describe upstream history, whose version numbers are independent of this fork.
+
 ## [5.0.7](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.7) (2026-05-06)
 
 **Note:** Version bump only for package fast-csv

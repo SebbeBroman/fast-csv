@@ -1,12 +1,10 @@
 {
-    "name": "fast-csv",
+    "name": "@sebbro/fast-csv-workspace",
     "private": true,
     "scripts": {
         "clean": "lerna run clean",
         "build": "lerna run build",
-        "lerna:pub": "lerna publish from-git",
-        "lerna:version": "lerna version",
-        "release": "pnpm run build && pnpm run lerna:version && pnpm run lerna:pub",
+        "release": "pnpm --filter @sebbro/fast-csv publish --access public",
         "test": "pnpm run lint && pnpm run jest && pnpm run examples",
         "format": "prettier --write \"**/*.{ts,js,json,md,mdx,css}\" --ignore-path .prettierignore",
         "format:check": "prettier --check \"**/*.{ts,js,json,md,mdx,css}\" --ignore-path .prettierignore",
@@ -21,7 +19,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git@github.com:C2FO/fast-csv.git"
+        "url": "git@github.com:SebbeBroman/fast-csv.git"
     },
     "workspaces": [
         "packages/*",

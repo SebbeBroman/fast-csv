@@ -1,3 +1,5 @@
+> Private source workspace for `@sebbro/fast-csv`; this package is not published separately. Browser consumers should import `@sebbro/fast-csv/browser`.
+
 ## Local ESM/browser fork
 
 This fork includes the optimized parser and ships native ESM only. Node stream APIs remain available through the normal package import. Older CommonJS consumers must migrate to ESM or dynamic imports.
