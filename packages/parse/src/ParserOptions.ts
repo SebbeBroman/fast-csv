@@ -42,7 +42,9 @@ export interface ParserOptionsArgs {
 }
 
 export class ParserOptions {
-    public readonly escapedDelimiter: string;
+    public get escapedDelimiter(): string {
+        return escapeRegExp(this.delimiter);
+    }
 
     public readonly objectMode: boolean = true;
 
@@ -76,7 +78,12 @@ export class ParserOptions {
 
     public readonly carriageReturn: string = '\r';
 
-    public readonly NEXT_TOKEN_REGEXP: RegExp;
+    private nextTokenRegexp?: RegExp;
+
+    /** Lazily retained for compatibility; cursor parsing does not use token regexes. */
+    public get NEXT_TOKEN_REGEXP(): RegExp {
+        return (this.nextTokenRegexp ??= new RegExp(`([^\\s]|\\r\\n|\\n|\\r|${this.escapedDelimiter})`));
+    }
 
     public readonly encoding: CsvEncoding = 'utf8';
 
@@ -93,10 +100,8 @@ export class ParserOptions {
         if (this.delimiter.length > 1) {
             throw new Error('delimiter option must be one character long');
         }
-        this.escapedDelimiter = escapeRegExp(this.delimiter);
         this.escapeChar = this.escape ?? this.quote;
         this.supportsComments = this.comment != null;
-        this.NEXT_TOKEN_REGEXP = new RegExp(`([^\\s]|\\r\\n|\\n|\\r|${this.escapedDelimiter})`);
 
         if (this.maxRows > 0) {
             this.limitRows = true;

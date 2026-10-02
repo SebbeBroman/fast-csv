@@ -13,6 +13,21 @@ export async function writeToString<I extends Row, O extends Row>(
     const opts = new FormatterOptions(options);
     const formatter = new RowFormatter(opts);
     const chunks: string[] = opts.writeBOM && rows.length > 0 ? [opts.BOM] : [];
+    if (!options.transform || options.transform.length < 2) {
+        const collectSync = (error: Error | null, data?: string[]): void => {
+            if (error) {
+                throw error;
+            }
+            if (data) {
+                chunks.push(...data);
+            }
+        };
+        for (const row of rows) {
+            formatter.format(row, collectSync);
+        }
+        formatter.finish(collectSync);
+        return chunks.join('');
+    }
     const collect = (run: (cb: (error: Error | null, data?: string[]) => void) => void): Promise<void> => {
         return new Promise((resolve, reject) => {
             run((error, data) => {

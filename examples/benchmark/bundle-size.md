@@ -4,12 +4,12 @@ Measured locally on 2026-10-02 with esbuild 0.28.2, native ESM, ES2022 target, t
 
 | Entry / retained exports                               | Minified kB | gzip kB | Brotli kB |
 | ------------------------------------------------------ | ----------: | ------: | --------: |
-| `@fast-csv/parse/browser`: both parsing functions      |      10.902 |   3.559 |     3.241 |
-| `@fast-csv/format/browser`: `writeToString`            |       4.495 |   1.635 |     1.484 |
-| `fast-csv/browser`: parsing functions only             |      10.902 |   3.564 |     3.247 |
-| `fast-csv/browser`: all parsing and formatting exports |      15.388 |   4.852 |     4.434 |
-| `@fast-csv/parse`: all Node exports                    |      14.295 |   4.524 |     4.118 |
-| `fast-csv`: all Node exports                           |      19.876 |   6.069 |     5.530 |
+| `@fast-csv/parse/browser`: both parsing functions      |       9.806 |   3.304 |     3.008 |
+| `@fast-csv/format/browser`: `writeToString`            |       4.641 |   1.676 |     1.518 |
+| `fast-csv/browser`: parsing functions only             |       9.806 |   3.308 |     3.007 |
+| `fast-csv/browser`: all parsing and formatting exports |      14.438 |   4.645 |     4.237 |
+| `@fast-csv/parse`: all Node exports                    |      13.025 |   4.231 |     3.839 |
+| `fast-csv`: all Node exports                           |      18.604 |   5.777 |     5.268 |
 
 Browser bundles have **no external runtime imports or Node polyfills**. Node measurements leave Node builtins external and therefore are not browser bundles. Parser-only imports from the umbrella exclude the formatter. An unused browser import disappears completely: the fixture retains only its application constant/export (32 bytes).
 
@@ -26,16 +26,16 @@ The command also executes browser bundles to check parser and formatter behavior
 
 These include Node and browser JS, TypeScript declarations, source maps, README, and the upstream license notice. They measure installation downloads rather than runtime browser payloads.
 
-| Package             | `.tgz` bytes | Unpacked file bytes |
-| ------------------- | -----------: | ------------------: |
-| `@fast-csv/parse`   |       20,937 |              94,536 |
-| `@fast-csv/format`  |       11,069 |              40,863 |
-| `fast-csv` umbrella |        3,103 |               7,086 |
+| Package            | `.tgz` bytes | Unpacked file bytes |
+| ------------------ | -----------: | ------------------: |
+| `@fast-csv/parse`  |       21,468 |              95,753 |
+| `@fast-csv/format` |       11,201 |              41,782 |
+| `fast-csv`         |        3,103 |               7,086 |
 
 Archives were produced with `pnpm -r --filter './packages/*' pack --pack-destination /tmp/fast-csv-fork`, then installed together in a fresh offline consumer. Browser exports, Node parsing, and browser bundling passed. Archive sizes can change with README or source-map changes. [Recorded package sizes](package-size-results.json).
 
 ## Remaining considerations
 
 - Browser parsing materializes the full input; `maxRows` only limits row processing. Incremental parsing or workers would matter for large files, not the tested 20–400-row tables.
-- The legacy `Token` helpers are still retained by Scanner compatibility methods, contributing 534 minified bytes plus the methods themselves. Separating that compatibility layer could reduce browser size further, but would add implementation complexity for a small saving.
+- Legacy Scanner/Token compatibility helpers are kept in separate modules and are excluded from the parser bundle. [Additional optimizations and performance measurements](browser-optimization.md).
 - Package names/version still identify the upstream packages. Choose the fork's own scope/version and update repository links before publishing; the local archives are suitable for testing now.

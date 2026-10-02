@@ -1,4 +1,4 @@
-import { Scanner } from './Scanner.js';
+import { CoreScanner } from './CoreScanner.js';
 import { RowParser } from './RowParser.js';
 import { ParserOptions } from '../ParserOptions.js';
 import { RowArray } from '../types.js';
@@ -27,7 +27,7 @@ export class Parser {
     }
 
     public parse(line: string, hasMoreData: boolean): ParseResult {
-        const scanner = new Scanner({
+        const scanner = new CoreScanner({
             line: Parser.removeBOM(line),
             parserOptions: this.parserOptions,
             hasMoreData,
@@ -38,7 +38,7 @@ export class Parser {
         return this.parseWithoutComments(scanner);
     }
 
-    private parseWithoutComments(scanner: Scanner): ParseResult {
+    private parseWithoutComments(scanner: CoreScanner): ParseResult {
         const rows: RowArray<string>[] = [];
         let rowStart = scanner.cursor;
         let shouldContinue = true;
@@ -51,7 +51,7 @@ export class Parser {
         return { line: scanner.line.slice(rowStart), rows };
     }
 
-    private parseWithComments(scanner: Scanner): ParseResult {
+    private parseWithComments(scanner: CoreScanner): ParseResult {
         const comment = this.parserOptions.comment;
         const commentCode = comment?.length === 1 ? comment.charCodeAt(0) : -1;
         const rows: RowArray<string>[] = [];
@@ -75,7 +75,7 @@ export class Parser {
         return { line: scanner.line.slice(rowStart), rows };
     }
 
-    private parseRow(scanner: Scanner, rows: RowArray<string>[]): boolean {
+    private parseRow(scanner: CoreScanner, rows: RowArray<string>[]): boolean {
         if (scanner.findNextNonSpace() === -1) {
             return false;
         }

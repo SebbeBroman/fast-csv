@@ -62,8 +62,19 @@ export function parseTextWithInfo<I extends Row = Row, O extends Row = I>(
 ): BrowserParseResult<O> {
     const parserOptions = new ParserOptions(options);
     const parser = new Parser(parserOptions);
-    const headerTransformer = new HeaderTransformer<I>(parserOptions);
     const parsed = parser.parse(text, false).rows;
+    if (
+        !parserOptions.headers &&
+        !parserOptions.renameHeaders &&
+        !parserOptions.skipLines &&
+        !parserOptions.skipRows &&
+        !parserOptions.limitRows &&
+        !options.transform &&
+        !options.validate
+    ) {
+        return { rows: parsed as unknown as O[], headers: null, invalidRows: [], rowCount: parsed.length };
+    }
+    const headerTransformer = new HeaderTransformer<I>(parserOptions);
     const result: BrowserParseResult<O> = { rows: [], headers: null, invalidRows: [], rowCount: 0 };
     let parsedRowCount = 0;
     for (let i = 0; i < parsed.length; i += 1) {
@@ -88,7 +99,7 @@ export function parseTextWithInfo<I extends Row = Row, O extends Row = I>(
             continue;
         }
         const row = options.transform ? options.transform(mapped.row) : (mapped.row as unknown as O);
-        if (row && typeof (row as { then?: unknown }).then === 'function') {
+        if (options.transform && row && typeof (row as { then?: unknown }).then === 'function') {
             throw new TypeError('Browser transforms must be synchronous');
         }
         if (row === null) {

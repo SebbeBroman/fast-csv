@@ -1,4 +1,4 @@
-import { Scanner } from './Scanner.js';
+import { CoreScanner } from './CoreScanner.js';
 import { ColumnParser } from './column/index.js';
 import { ParserOptions } from '../ParserOptions.js';
 import { RowArray } from '../types.js';
@@ -24,7 +24,7 @@ export class RowParser {
         this.columnParser = new ColumnParser(parserOptions);
     }
 
-    public parse(scanner: Scanner): RowArray<string> | null {
+    public parse(scanner: CoreScanner): RowArray<string> | null {
         const { hasMoreData } = scanner;
         const columns: RowArray<string> = [];
         let pos = this.getStartPos(scanner, columns);
@@ -54,7 +54,7 @@ export class RowParser {
         return null;
     }
 
-    private getStartPos(scanner: Scanner, columns: RowArray<string>): number {
+    private getStartPos(scanner: CoreScanner, columns: RowArray<string>): number {
         const pos = scanner.findNextNonSpace();
         if (pos !== -1 && scanner.line.charCodeAt(pos) === this.delimiterCode) {
             columns.push('');
@@ -62,7 +62,7 @@ export class RowParser {
         return pos;
     }
 
-    private shouldSkipColumnParse(scanner: Scanner, pos: number, columns: RowArray<string>): boolean {
+    private shouldSkipColumnParse(scanner: CoreScanner, pos: number, columns: RowArray<string>): boolean {
         if (scanner.line.charCodeAt(pos) !== this.delimiterCode) {
             return false;
         }

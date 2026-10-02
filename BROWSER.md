@@ -43,7 +43,7 @@ The parser speedup is already included. [Benchmarks](examples/benchmark/parser-p
 
 ## Bundle size
 
-The browser parser is 10.9 kB minified / 3.6 kB gzip / 3.2 kB Brotli. Parser and formatter together are 15.4 kB / 4.9 kB / 4.4 kB. Parser-only imports from `fast-csv/browser` remove the formatter. These are ES2022 production bundles with no Node polyfills, source maps, or application code. [Measurements and reproduction](examples/benchmark/bundle-size.md).
+The browser parser is 9.8 kB minified / 3.3 kB gzip / 3.0 kB Brotli. Parser and formatter together are 14.4 kB / 4.6 kB / 4.2 kB. Parser-only imports from `fast-csv/browser` remove the formatter. These are ES2022 production bundles with no Node polyfills, source maps, or application code. [Measurements and reproduction](examples/benchmark/bundle-size.md). [Further optimizations](examples/benchmark/browser-optimization.md) include CPU, time, and RSS comparisons for 20–400 rows.
 
 ## ESM-only packaging
 

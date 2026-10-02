@@ -1,0 +1,230 @@
+{
+    "node": "v24.21.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "baseline": "git:069a97c",
+    "candidate": ".",
+    "runs": 2000,
+    "warmups": 500,
+    "samples": 3,
+    "notes": "Browser APIs measured in Node/V8, not Chromium. Median of three process means; sequential alternating versions. CPU includes user+system. RSS is peak for the complete repeated suite, not per table. Inputs decoded before timing.",
+    "results": {
+        "arrays-nonquoted-20": {
+            "baseline": { "wallMs": 0.004049916999999999, "cpuMs": 0.0107515 },
+            "candidate": { "wallMs": 0.0034764169999999994, "cpuMs": 0.007815 }
+        },
+        "headers-nonquoted-20": {
+            "baseline": { "wallMs": 0.004961583000000001, "cpuMs": 0.00845 },
+            "candidate": { "wallMs": 0.00456175, "cpuMs": 0.007932 }
+        },
+        "format-nonquoted-20": {
+            "baseline": { "wallMs": 0.0140396875, "cpuMs": 0.028982 },
+            "candidate": { "wallMs": 0.011757624999999997, "cpuMs": 0.020901 }
+        },
+        "arrays-nonquoted-100": {
+            "baseline": { "wallMs": 0.012715792, "cpuMs": 0.0126925 },
+            "candidate": { "wallMs": 0.011173375, "cpuMs": 0.011169 }
+        },
+        "headers-nonquoted-100": {
+            "baseline": { "wallMs": 0.019238021000000004, "cpuMs": 0.0193835 },
+            "candidate": { "wallMs": 0.018312875, "cpuMs": 0.0185275 }
+        },
+        "format-nonquoted-100": {
+            "baseline": { "wallMs": 0.0545109585, "cpuMs": 0.0554655 },
+            "candidate": { "wallMs": 0.04542525000000001, "cpuMs": 0.049621000000000005 }
+        },
+        "arrays-nonquoted-400": {
+            "baseline": { "wallMs": 0.04714195800000002, "cpuMs": 0.049923 },
+            "candidate": { "wallMs": 0.04414822900000002, "cpuMs": 0.0448895 }
+        },
+        "headers-nonquoted-400": {
+            "baseline": { "wallMs": 0.07182089599999998, "cpuMs": 0.0716445 },
+            "candidate": { "wallMs": 0.06784914600000001, "cpuMs": 0.07165200000000001 }
+        },
+        "format-nonquoted-400": {
+            "baseline": { "wallMs": 0.20746029150000003, "cpuMs": 0.2071125 },
+            "candidate": { "wallMs": 0.17348379149999998, "cpuMs": 0.173184 }
+        },
+        "arrays-quoted-20": {
+            "baseline": { "wallMs": 0.010239979500000005, "cpuMs": 0.0103165 },
+            "candidate": { "wallMs": 0.009637312500000007, "cpuMs": 0.009831 }
+        },
+        "headers-quoted-20": {
+            "baseline": { "wallMs": 0.011765332999999942, "cpuMs": 0.0117495 },
+            "candidate": { "wallMs": 0.011043354000000023, "cpuMs": 0.011042999999999999 }
+        },
+        "format-quoted-20": {
+            "baseline": { "wallMs": 0.017151666500000034, "cpuMs": 0.0170355 },
+            "candidate": { "wallMs": 0.014865666999999918, "cpuMs": 0.016084 }
+        },
+        "arrays-quoted-100": {
+            "baseline": { "wallMs": 0.048934353999999985, "cpuMs": 0.048767000000000005 },
+            "candidate": { "wallMs": 0.04596202100000005, "cpuMs": 0.045926499999999995 }
+        },
+        "headers-quoted-100": {
+            "baseline": { "wallMs": 0.05416529149999997, "cpuMs": 0.054713500000000005 },
+            "candidate": { "wallMs": 0.05309441700000002, "cpuMs": 0.053792 }
+        },
+        "format-quoted-100": {
+            "baseline": { "wallMs": 0.0767179165, "cpuMs": 0.07927500000000001 },
+            "candidate": { "wallMs": 0.06765889600000002, "cpuMs": 0.06901099999999999 }
+        },
+        "arrays-quoted-400": {
+            "baseline": { "wallMs": 0.1921210625, "cpuMs": 0.1922005 },
+            "candidate": { "wallMs": 0.1872269584999999, "cpuMs": 0.187016 }
+        },
+        "headers-quoted-400": {
+            "baseline": { "wallMs": 0.21643514600000002, "cpuMs": 0.2161855 },
+            "candidate": { "wallMs": 0.20799925000000008, "cpuMs": 0.207612 }
+        },
+        "format-quoted-400": {
+            "baseline": { "wallMs": 0.3022632500000002, "cpuMs": 0.301691 },
+            "candidate": { "wallMs": 0.2686969999999999, "cpuMs": 0.268187 }
+        }
+    },
+    "peakRssMiB": { "baseline": 92.71875, "candidate": 93 },
+    "measurements": {
+        "baseline": [
+            {
+                "results": {
+                    "arrays-nonquoted-20": { "wallMs": 0.0038939789999999997, "cpuMs": 0.0103705 },
+                    "headers-nonquoted-20": { "wallMs": 0.004961583000000001, "cpuMs": 0.00868 },
+                    "format-nonquoted-20": { "wallMs": 0.014190875000000002, "cpuMs": 0.029212 },
+                    "arrays-nonquoted-100": { "wallMs": 0.012715792, "cpuMs": 0.0126925 },
+                    "headers-nonquoted-100": { "wallMs": 0.019244354, "cpuMs": 0.0193835 },
+                    "format-nonquoted-100": { "wallMs": 0.054319979500000004, "cpuMs": 0.05534 },
+                    "arrays-nonquoted-400": { "wallMs": 0.046987083499999985, "cpuMs": 0.049923 },
+                    "headers-nonquoted-400": { "wallMs": 0.07182089599999998, "cpuMs": 0.0716445 },
+                    "format-nonquoted-400": { "wallMs": 0.20740877099999994, "cpuMs": 0.207033 },
+                    "arrays-quoted-20": { "wallMs": 0.010289937500000065, "cpuMs": 0.0103745 },
+                    "headers-quoted-20": { "wallMs": 0.011765332999999942, "cpuMs": 0.0117495 },
+                    "format-quoted-20": { "wallMs": 0.017151666500000034, "cpuMs": 0.0170615 },
+                    "arrays-quoted-100": { "wallMs": 0.04810083299999997, "cpuMs": 0.0480565 },
+                    "headers-quoted-100": { "wallMs": 0.05416529149999997, "cpuMs": 0.054713500000000005 },
+                    "format-quoted-100": { "wallMs": 0.07778831249999996, "cpuMs": 0.080163 },
+                    "arrays-quoted-400": { "wallMs": 0.21772360400000002, "cpuMs": 0.202157 },
+                    "headers-quoted-400": { "wallMs": 0.21706283349999989, "cpuMs": 0.216514 },
+                    "format-quoted-400": { "wallMs": 0.303528229, "cpuMs": 0.30270600000000003 }
+                },
+                "peakRssMiB": 92.71875
+            },
+            {
+                "results": {
+                    "arrays-nonquoted-20": { "wallMs": 0.004049916999999999, "cpuMs": 0.0111125 },
+                    "headers-nonquoted-20": { "wallMs": 0.0049327915, "cpuMs": 0.00845 },
+                    "format-nonquoted-20": { "wallMs": 0.0140396875, "cpuMs": 0.028939 },
+                    "arrays-nonquoted-100": { "wallMs": 0.012298457999999996, "cpuMs": 0.012306 },
+                    "headers-nonquoted-100": { "wallMs": 0.018935708000000006, "cpuMs": 0.019116499999999998 },
+                    "format-nonquoted-100": { "wallMs": 0.05563962500000001, "cpuMs": 0.056688 },
+                    "arrays-nonquoted-400": { "wallMs": 0.04714195800000002, "cpuMs": 0.049155500000000005 },
+                    "headers-nonquoted-400": { "wallMs": 0.06903247899999997, "cpuMs": 0.068988 },
+                    "format-nonquoted-400": { "wallMs": 0.21186797899999998, "cpuMs": 0.211288 },
+                    "arrays-quoted-20": { "wallMs": 0.010239979500000005, "cpuMs": 0.0103165 },
+                    "headers-quoted-20": { "wallMs": 0.011623478999999975, "cpuMs": 0.0115745 },
+                    "format-quoted-20": { "wallMs": 0.017170437499999934, "cpuMs": 0.0170355 },
+                    "arrays-quoted-100": { "wallMs": 0.048934353999999985, "cpuMs": 0.048767000000000005 },
+                    "headers-quoted-100": { "wallMs": 0.05354258300000004, "cpuMs": 0.0540895 },
+                    "format-quoted-100": { "wallMs": 0.07642379149999999, "cpuMs": 0.0790255 },
+                    "arrays-quoted-400": { "wallMs": 0.19099160400000006, "cpuMs": 0.190994 },
+                    "headers-quoted-400": { "wallMs": 0.21413333299999998, "cpuMs": 0.2137665 },
+                    "format-quoted-400": { "wallMs": 0.3016666250000001, "cpuMs": 0.301066 }
+                },
+                "peakRssMiB": 93.734375
+            },
+            {
+                "results": {
+                    "arrays-nonquoted-20": { "wallMs": 0.004178229, "cpuMs": 0.0107515 },
+                    "headers-nonquoted-20": { "wallMs": 0.005350020999999998, "cpuMs": 0.0083155 },
+                    "format-nonquoted-20": { "wallMs": 0.014013395999999997, "cpuMs": 0.028982 },
+                    "arrays-nonquoted-100": { "wallMs": 0.012766333000000003, "cpuMs": 0.0127615 },
+                    "headers-nonquoted-100": { "wallMs": 0.019238021000000004, "cpuMs": 0.0194415 },
+                    "format-nonquoted-100": { "wallMs": 0.0545109585, "cpuMs": 0.0554655 },
+                    "arrays-nonquoted-400": { "wallMs": 0.04893654150000001, "cpuMs": 0.050875 },
+                    "headers-nonquoted-400": { "wallMs": 0.0722285, "cpuMs": 0.072166 },
+                    "format-nonquoted-400": { "wallMs": 0.20746029150000003, "cpuMs": 0.2071125 },
+                    "arrays-quoted-20": { "wallMs": 0.009955708500000014, "cpuMs": 0.010046 },
+                    "headers-quoted-20": { "wallMs": 0.011787896000000046, "cpuMs": 0.011767 },
+                    "format-quoted-20": { "wallMs": 0.01701299999999992, "cpuMs": 0.016978 },
+                    "arrays-quoted-100": { "wallMs": 0.04952291650000006, "cpuMs": 0.049374499999999995 },
+                    "headers-quoted-100": { "wallMs": 0.05455925000000002, "cpuMs": 0.0551155 },
+                    "format-quoted-100": { "wallMs": 0.0767179165, "cpuMs": 0.07927500000000001 },
+                    "arrays-quoted-400": { "wallMs": 0.1921210625, "cpuMs": 0.1922005 },
+                    "headers-quoted-400": { "wallMs": 0.21643514600000002, "cpuMs": 0.2161855 },
+                    "format-quoted-400": { "wallMs": 0.3022632500000002, "cpuMs": 0.301691 }
+                },
+                "peakRssMiB": 92.640625
+            }
+        ],
+        "candidate": [
+            {
+                "results": {
+                    "arrays-nonquoted-20": { "wallMs": 0.0035079579999999985, "cpuMs": 0.007854 },
+                    "headers-nonquoted-20": { "wallMs": 0.0048746875000000005, "cpuMs": 0.008575 },
+                    "format-nonquoted-20": { "wallMs": 0.012093354000000002, "cpuMs": 0.0206925 },
+                    "arrays-nonquoted-100": { "wallMs": 0.0115240625, "cpuMs": 0.011508 },
+                    "headers-nonquoted-100": { "wallMs": 0.018471833000000003, "cpuMs": 0.0186455 },
+                    "format-nonquoted-100": { "wallMs": 0.04542525000000001, "cpuMs": 0.049621000000000005 },
+                    "arrays-nonquoted-400": { "wallMs": 0.04330991650000002, "cpuMs": 0.044066 },
+                    "headers-nonquoted-400": { "wallMs": 0.06784914600000001, "cpuMs": 0.07165200000000001 },
+                    "format-nonquoted-400": { "wallMs": 0.172755604, "cpuMs": 0.172375 },
+                    "arrays-quoted-20": { "wallMs": 0.009637312500000007, "cpuMs": 0.009670999999999999 },
+                    "headers-quoted-20": { "wallMs": 0.011043354000000023, "cpuMs": 0.011042999999999999 },
+                    "format-quoted-20": { "wallMs": 0.014865666999999918, "cpuMs": 0.016103000000000003 },
+                    "arrays-quoted-100": { "wallMs": 0.047305312500000016, "cpuMs": 0.0471555 },
+                    "headers-quoted-100": { "wallMs": 0.052872479, "cpuMs": 0.053564999999999995 },
+                    "format-quoted-100": { "wallMs": 0.06765889600000002, "cpuMs": 0.06901099999999999 },
+                    "arrays-quoted-400": { "wallMs": 0.18631650000000002, "cpuMs": 0.186331 },
+                    "headers-quoted-400": { "wallMs": 0.20763768750000008, "cpuMs": 0.207311 },
+                    "format-quoted-400": { "wallMs": 0.2686969999999999, "cpuMs": 0.268187 }
+                },
+                "peakRssMiB": 92.765625
+            },
+            {
+                "results": {
+                    "arrays-nonquoted-20": { "wallMs": 0.003415416499999999, "cpuMs": 0.0077315 },
+                    "headers-nonquoted-20": { "wallMs": 0.00456175, "cpuMs": 0.007889 },
+                    "format-nonquoted-20": { "wallMs": 0.011665646000000002, "cpuMs": 0.020901 },
+                    "arrays-nonquoted-100": { "wallMs": 0.011173375, "cpuMs": 0.011169 },
+                    "headers-nonquoted-100": { "wallMs": 0.018312875, "cpuMs": 0.0185275 },
+                    "format-nonquoted-100": { "wallMs": 0.04481904150000001, "cpuMs": 0.049014 },
+                    "arrays-nonquoted-400": { "wallMs": 0.04414822900000002, "cpuMs": 0.0448895 },
+                    "headers-nonquoted-400": { "wallMs": 0.07055995849999999, "cpuMs": 0.07369400000000001 },
+                    "format-nonquoted-400": { "wallMs": 0.173596229, "cpuMs": 0.17326 },
+                    "arrays-quoted-20": { "wallMs": 0.009747792000000003, "cpuMs": 0.009831 },
+                    "headers-quoted-20": { "wallMs": 0.011233979499999975, "cpuMs": 0.011231 },
+                    "format-quoted-20": { "wallMs": 0.014887896000000069, "cpuMs": 0.016084 },
+                    "arrays-quoted-100": { "wallMs": 0.04596202100000005, "cpuMs": 0.045926499999999995 },
+                    "headers-quoted-100": { "wallMs": 0.05309441700000002, "cpuMs": 0.053792 },
+                    "format-quoted-100": { "wallMs": 0.06980602099999998, "cpuMs": 0.07119249999999999 },
+                    "arrays-quoted-400": { "wallMs": 0.1880237915, "cpuMs": 0.187866 },
+                    "headers-quoted-400": { "wallMs": 0.21143854149999994, "cpuMs": 0.21100149999999998 },
+                    "format-quoted-400": { "wallMs": 0.2691658124999999, "cpuMs": 0.2687235 }
+                },
+                "peakRssMiB": 93
+            },
+            {
+                "results": {
+                    "arrays-nonquoted-20": { "wallMs": 0.0034764169999999994, "cpuMs": 0.007815 },
+                    "headers-nonquoted-20": { "wallMs": 0.004539187500000001, "cpuMs": 0.007932 },
+                    "format-nonquoted-20": { "wallMs": 0.011757624999999997, "cpuMs": 0.021147 },
+                    "arrays-nonquoted-100": { "wallMs": 0.0111319795, "cpuMs": 0.0111385 },
+                    "headers-nonquoted-100": { "wallMs": 0.0175187915, "cpuMs": 0.017713999999999997 },
+                    "format-nonquoted-100": { "wallMs": 0.046555875000000004, "cpuMs": 0.0508565 },
+                    "arrays-nonquoted-400": { "wallMs": 0.04434564599999999, "cpuMs": 0.045131500000000005 },
+                    "headers-nonquoted-400": { "wallMs": 0.06669575, "cpuMs": 0.070125 },
+                    "format-nonquoted-400": { "wallMs": 0.17348379149999998, "cpuMs": 0.173184 },
+                    "arrays-quoted-20": { "wallMs": 0.009572583500000008, "cpuMs": 0.0102005 },
+                    "headers-quoted-20": { "wallMs": 0.01084031250000004, "cpuMs": 0.010839499999999998 },
+                    "format-quoted-20": { "wallMs": 0.01468179150000003, "cpuMs": 0.0157775 },
+                    "arrays-quoted-100": { "wallMs": 0.0459006455, "cpuMs": 0.045881500000000006 },
+                    "headers-quoted-100": { "wallMs": 0.05397022949999996, "cpuMs": 0.05472249999999999 },
+                    "format-quoted-100": { "wallMs": 0.06737883299999999, "cpuMs": 0.06888599999999999 },
+                    "arrays-quoted-400": { "wallMs": 0.1872269584999999, "cpuMs": 0.187016 },
+                    "headers-quoted-400": { "wallMs": 0.20799925000000008, "cpuMs": 0.207612 },
+                    "format-quoted-400": { "wallMs": 0.2678949375, "cpuMs": 0.2674825 }
+                },
+                "peakRssMiB": 93
+            }
+        ]
+    }
+}

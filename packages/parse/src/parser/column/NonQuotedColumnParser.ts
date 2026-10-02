@@ -1,6 +1,6 @@
 import { ParserOptions } from '../../ParserOptions.js';
 import { ColumnFormatter } from './ColumnFormatter.js';
-import { Scanner } from '../Scanner.js';
+import { CoreScanner } from '../CoreScanner.js';
 
 export class NonQuotedColumnParser {
     private readonly delimiterCode: number;
@@ -12,7 +12,7 @@ export class NonQuotedColumnParser {
         this.columnFormatter = new ColumnFormatter(parserOptions);
     }
 
-    public parse(scanner: Scanner): string | null {
+    public parse(scanner: CoreScanner): string | null {
         if (!scanner.hasMoreCharacters) {
             return null;
         }

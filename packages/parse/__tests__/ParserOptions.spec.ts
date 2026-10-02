@@ -209,4 +209,10 @@ describe('ParserOptions', () => {
             expect(opts.skipRows).toBe(10);
         });
     });
+    it('retains legacy token regex access with an escaped delimiter', () => {
+        const options = createOptions({ delimiter: '\\' });
+        expect(options.escapedDelimiter).toBe('\\\\');
+        expect(options.NEXT_TOKEN_REGEXP.exec(' \\')?.[0]).toBe('\\');
+        expect(options.NEXT_TOKEN_REGEXP).toBe(options.NEXT_TOKEN_REGEXP);
+    });
 });

@@ -1,7 +1,7 @@
 import { ParserOptions } from '../../ParserOptions.js';
 import { NonQuotedColumnParser } from './NonQuotedColumnParser.js';
 import { QuotedColumnParser } from './QuotedColumnParser.js';
-import { Scanner } from '../Scanner.js';
+import { CoreScanner } from '../CoreScanner.js';
 
 export class ColumnParser {
     private readonly quoteCode: number;
@@ -16,7 +16,7 @@ export class ColumnParser {
         this.nonQuotedColumnParser = new NonQuotedColumnParser(parserOptions);
     }
 
-    public parse(scanner: Scanner): string | null {
+    public parse(scanner: CoreScanner): string | null {
         const pos = scanner.findNextNonSpace();
         if (pos !== -1 && scanner.line.charCodeAt(pos) === this.quoteCode) {
             scanner.advanceTo(pos);

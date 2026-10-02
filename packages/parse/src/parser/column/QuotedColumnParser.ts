@@ -1,11 +1,6 @@
 import { ColumnFormatter } from './ColumnFormatter.js';
 import { ParserOptions } from '../../ParserOptions.js';
-import { Scanner } from '../Scanner.js';
-
-interface DataBetweenQuotes {
-    foundClosingQuote: boolean;
-    col: string;
-}
+import { CoreScanner } from '../CoreScanner.js';
 
 export class QuotedColumnParser {
     private readonly parserOptions: ParserOptions;
@@ -23,13 +18,13 @@ export class QuotedColumnParser {
         this.escapeCode = parserOptions.escapeChar?.length === 1 ? parserOptions.escapeChar.charCodeAt(0) : -1;
     }
 
-    public parse(scanner: Scanner): string | null {
+    public parse(scanner: CoreScanner): string | null {
         if (!scanner.hasMoreCharacters) {
             return null;
         }
         const originalCursor = scanner.cursor;
-        const { foundClosingQuote, col } = this.gatherDataBetweenQuotes(scanner);
-        if (!foundClosingQuote) {
+        const col = this.gatherDataBetweenQuotes(scanner);
+        if (col === null) {
             scanner.advanceTo(originalCursor);
             if (!scanner.hasMoreData) {
                 throw new Error(
@@ -44,21 +39,21 @@ export class QuotedColumnParser {
         return col;
     }
 
-    private gatherDataBetweenQuotes(scanner: Scanner): DataBetweenQuotes {
+    private gatherDataBetweenQuotes(scanner: CoreScanner): string | null {
         const { parserOptions, columnFormatter, quoteCode, escapeCode } = this;
         const { line, lineLength } = scanner;
         let i = scanner.cursor;
 
         if (quoteCode === -1) {
             scanner.advanceTo(lineLength);
-            return { col: columnFormatter.format(''), foundClosingQuote: false };
+            return null;
         }
 
         const quote = parserOptions.quote as string;
         const opening = line.indexOf(quote, i);
         if (opening === -1) {
             scanner.advanceTo(lineLength);
-            return { col: columnFormatter.format(''), foundClosingQuote: false };
+            return null;
         }
         i = opening + 1;
         const contentStart = i;
@@ -132,14 +127,14 @@ export class QuotedColumnParser {
         scanner.advanceTo(foundClosingQuote ? i : lineLength);
 
         if (!foundClosingQuote) {
-            return { col: columnFormatter.format(''), foundClosingQuote: false };
+            return null;
         }
 
         const raw = parts === null ? line.slice(contentStart, i - 1) : parts.join('');
-        return { col: columnFormatter.format(raw), foundClosingQuote: true };
+        return columnFormatter.format(raw);
     }
 
-    private checkForMalformedColumn(scanner: Scanner): void {
+    private checkForMalformedColumn(scanner: CoreScanner): void {
         const { parserOptions } = this;
         const pos = scanner.findNextNonSpace();
         if (pos !== -1) {
