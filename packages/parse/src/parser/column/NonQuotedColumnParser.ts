@@ -1,15 +1,14 @@
 import { ParserOptions } from '../../ParserOptions';
 import { ColumnFormatter } from './ColumnFormatter';
 import { Scanner } from '../Scanner';
-import { Token } from '../Token';
 
 export class NonQuotedColumnParser {
-    private readonly parserOptions: ParserOptions;
+    private readonly delimiterCode: number;
 
     private readonly columnFormatter: ColumnFormatter;
 
     public constructor(parserOptions: ParserOptions) {
-        this.parserOptions = parserOptions;
+        this.delimiterCode = parserOptions.delimiter.charCodeAt(0);
         this.columnFormatter = new ColumnFormatter(parserOptions);
     }
 
@@ -17,16 +16,16 @@ export class NonQuotedColumnParser {
         if (!scanner.hasMoreCharacters) {
             return null;
         }
-        const { parserOptions } = this;
-        const characters = [];
-        let nextToken = scanner.nextCharacterToken;
-        for (; nextToken; nextToken = scanner.nextCharacterToken) {
-            if (Token.isTokenDelimiter(nextToken, parserOptions) || Token.isTokenRowDelimiter(nextToken)) {
+        const { line, cursor, lineLength } = scanner;
+        const { delimiterCode } = this;
+        let i = cursor;
+        for (; i < lineLength; i += 1) {
+            const code = line.charCodeAt(i);
+            if (code === delimiterCode || code === 10 || code === 13) {
                 break;
             }
-            characters.push(nextToken.token);
-            scanner.advancePastToken(nextToken);
         }
-        return this.columnFormatter.format(characters.join(''));
+        scanner.advanceTo(i);
+        return this.columnFormatter.format(line.slice(cursor, i));
     }
 }

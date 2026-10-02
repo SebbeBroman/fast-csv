@@ -1,0 +1,408 @@
+{
+    "date": "2026-10-02",
+    "upstreamComparison": {
+        "node": "v24.21.0",
+        "platform": "darwin",
+        "arch": "arm64",
+        "runs": 5,
+        "samples": 3,
+        "baseline": "git:origin/main",
+        "candidate": "packages/parse/build/src",
+        "results": {
+            "stream-nonquoted": {
+                "baseline": {
+                    "wallMs": 225.41869180000003,
+                    "userMs": 228.29180000000002,
+                    "systemMs": 8.496599999999999,
+                    "peakRssMiB": 206.9375
+                },
+                "candidate": {
+                    "wallMs": 122.6355748,
+                    "userMs": 120.2272,
+                    "systemMs": 4.768,
+                    "peakRssMiB": 126.390625
+                }
+            },
+            "stream-quoted": {
+                "baseline": {
+                    "wallMs": 298.62395000000004,
+                    "userMs": 339.4584,
+                    "systemMs": 8.128400000000001,
+                    "peakRssMiB": 208.75
+                },
+                "candidate": {
+                    "wallMs": 157.1679582,
+                    "userMs": 152.89000000000001,
+                    "systemMs": 5.6562,
+                    "peakRssMiB": 130.15625
+                }
+            },
+            "parser-nonquoted": {
+                "baseline": {
+                    "wallMs": 122.89159179999999,
+                    "userMs": 144.0134,
+                    "systemMs": 5.5256,
+                    "peakRssMiB": 268.640625
+                },
+                "candidate": {
+                    "wallMs": 17.1119498,
+                    "userMs": 27.3642,
+                    "systemMs": 5.9828,
+                    "peakRssMiB": 302.8125
+                }
+            },
+            "parser-quoted": {
+                "baseline": {
+                    "wallMs": 193.49039160000004,
+                    "userMs": 226.09279999999998,
+                    "systemMs": 7.4592,
+                    "peakRssMiB": 314.046875
+                },
+                "candidate": {
+                    "wallMs": 59.588183600000015,
+                    "userMs": 92.83840000000001,
+                    "systemMs": 6.558400000000001,
+                    "peakRssMiB": 329.828125
+                }
+            },
+            "parser-custom-escape": {
+                "baseline": {
+                    "wallMs": 3.9091331999999994,
+                    "userMs": 5.0526,
+                    "systemMs": 0.7466,
+                    "peakRssMiB": 78.34375
+                },
+                "candidate": {
+                    "wallMs": 1.0519583999999995,
+                    "userMs": 1.6492,
+                    "systemMs": 0.0748,
+                    "peakRssMiB": 54.703125
+                }
+            },
+            "parser-comments": {
+                "baseline": {
+                    "wallMs": 89.18463340000001,
+                    "userMs": 102.8258,
+                    "systemMs": 6.1446,
+                    "peakRssMiB": 266.96875
+                },
+                "candidate": {
+                    "wallMs": 15.681024600000004,
+                    "userMs": 20.1408,
+                    "systemMs": 3.4186,
+                    "peakRssMiB": 210.359375
+                }
+            },
+            "parser-ignore-empty": {
+                "baseline": {
+                    "wallMs": 171.23219160000002,
+                    "userMs": 187.3014,
+                    "systemMs": 6.758,
+                    "peakRssMiB": 260.1875
+                },
+                "candidate": {
+                    "wallMs": 25.693016399999998,
+                    "userMs": 31.601,
+                    "systemMs": 4.664,
+                    "peakRssMiB": 254.875
+                }
+            }
+        },
+        "baselineCommit": "4f36559a3d656a7ae234775dee7fa3c4b274d77d"
+    },
+    "restoredStashComparison": {
+        "node": "v24.21.0",
+        "platform": "darwin",
+        "arch": "arm64",
+        "runs": 5,
+        "samples": 3,
+        "baseline": "git:stash@{0}",
+        "candidate": "packages/parse/build/src",
+        "results": {
+            "stream-nonquoted": {
+                "baseline": {
+                    "wallMs": 120.99876660000004,
+                    "userMs": 119.42580000000001,
+                    "systemMs": 4.7842,
+                    "peakRssMiB": 126.28125
+                },
+                "candidate": {
+                    "wallMs": 121.51667519999997,
+                    "userMs": 120.0504,
+                    "systemMs": 5.0502,
+                    "peakRssMiB": 126
+                }
+            },
+            "stream-quoted": {
+                "baseline": {
+                    "wallMs": 160.46389159999998,
+                    "userMs": 160.5926,
+                    "systemMs": 5.197,
+                    "peakRssMiB": 130.90625
+                },
+                "candidate": {
+                    "wallMs": 159.10664999999997,
+                    "userMs": 156.20440000000002,
+                    "systemMs": 5.0792,
+                    "peakRssMiB": 130.25
+                }
+            },
+            "parser-nonquoted": {
+                "baseline": {
+                    "wallMs": 17.303466399999998,
+                    "userMs": 27.5736,
+                    "systemMs": 6.1334,
+                    "peakRssMiB": 303.15625
+                },
+                "candidate": {
+                    "wallMs": 17.470300200000004,
+                    "userMs": 28.014,
+                    "systemMs": 6.1396,
+                    "peakRssMiB": 303.015625
+                }
+            },
+            "parser-quoted": {
+                "baseline": {
+                    "wallMs": 59.44210819999999,
+                    "userMs": 92.8304,
+                    "systemMs": 6.0158000000000005,
+                    "peakRssMiB": 329.796875
+                },
+                "candidate": {
+                    "wallMs": 60.12893340000001,
+                    "userMs": 93.9928,
+                    "systemMs": 6.2648,
+                    "peakRssMiB": 329.578125
+                }
+            },
+            "parser-custom-escape": {
+                "baseline": {
+                    "wallMs": 52.278858400000004,
+                    "userMs": 52.4756,
+                    "systemMs": 0.1754,
+                    "peakRssMiB": 54.78125
+                },
+                "candidate": {
+                    "wallMs": 1.0374829999999995,
+                    "userMs": 1.6296,
+                    "systemMs": 0.0678,
+                    "peakRssMiB": 54.703125
+                }
+            },
+            "parser-comments": {
+                "baseline": {
+                    "wallMs": 18.5418582,
+                    "userMs": 25.4514,
+                    "systemMs": 4.051,
+                    "peakRssMiB": 217.53125
+                },
+                "candidate": {
+                    "wallMs": 16.7626584,
+                    "userMs": 20.839599999999997,
+                    "systemMs": 3.7626,
+                    "peakRssMiB": 210.40625
+                }
+            },
+            "parser-ignore-empty": {
+                "baseline": {
+                    "wallMs": 37.7240834,
+                    "userMs": 44.9814,
+                    "systemMs": 4.9326,
+                    "peakRssMiB": 255.796875
+                },
+                "candidate": {
+                    "wallMs": 26.792958199999998,
+                    "userMs": 32.7896,
+                    "systemMs": 4.7296,
+                    "peakRssMiB": 254.453125
+                }
+            }
+        },
+        "baselineCommit": "f4748ea71fd87130962b8190725d4f6de908e600"
+    },
+    "smallTableComparison": {
+        "node": "v24.21.0",
+        "platform": "darwin",
+        "arch": "arm64",
+        "runs": {
+            "stream": 1000,
+            "parser": 2000
+        },
+        "samples": 3,
+        "warmups": 200,
+        "streamSource": "in-memory Buffer",
+        "baseline": "git:origin/main",
+        "candidate": "packages/parse/build/src",
+        "results": {
+            "stream-nonquoted-20": {
+                "baseline": {
+                    "wallMs": 0.11010441400000048,
+                    "userMs": 0.142511,
+                    "systemMs": 0.010464000000000001,
+                    "peakRssMiB": 89.09375
+                },
+                "candidate": {
+                    "wallMs": 0.0867534979999998,
+                    "userMs": 0.112483,
+                    "systemMs": 0.01018,
+                    "peakRssMiB": 92.765625
+                }
+            },
+            "stream-quoted-20": {
+                "baseline": {
+                    "wallMs": 0.12514011800000016,
+                    "userMs": 0.149089,
+                    "systemMs": 0.009779999999999999,
+                    "peakRssMiB": 91.765625
+                },
+                "candidate": {
+                    "wallMs": 0.09406455100000012,
+                    "userMs": 0.127754,
+                    "systemMs": 0.010126,
+                    "peakRssMiB": 92.75
+                }
+            },
+            "parser-nonquoted-20": {
+                "baseline": {
+                    "wallMs": 0.024297601999999932,
+                    "userMs": 0.027672000000000002,
+                    "systemMs": 0.001029,
+                    "peakRssMiB": 82.84375
+                },
+                "candidate": {
+                    "wallMs": 0.004756743999999799,
+                    "userMs": 0.010228,
+                    "systemMs": 0.0009075,
+                    "peakRssMiB": 80.265625
+                }
+            },
+            "parser-quoted-20": {
+                "baseline": {
+                    "wallMs": 0.040792851000000005,
+                    "userMs": 0.044320500000000006,
+                    "systemMs": 0.0012549999999999998,
+                    "peakRssMiB": 87.546875
+                },
+                "candidate": {
+                    "wallMs": 0.012065388499999984,
+                    "userMs": 0.0175275,
+                    "systemMs": 0.0008764999999999999,
+                    "peakRssMiB": 87.671875
+                }
+            },
+            "stream-nonquoted-100": {
+                "baseline": {
+                    "wallMs": 0.287544104,
+                    "userMs": 0.281913,
+                    "systemMs": 0.017070000000000002,
+                    "peakRssMiB": 100.1875
+                },
+                "candidate": {
+                    "wallMs": 0.1695197579999998,
+                    "userMs": 0.16778700000000002,
+                    "systemMs": 0.011807,
+                    "peakRssMiB": 97.875
+                }
+            },
+            "stream-quoted-100": {
+                "baseline": {
+                    "wallMs": 0.37539469199999964,
+                    "userMs": 0.37671499999999997,
+                    "systemMs": 0.020165,
+                    "peakRssMiB": 103.09375
+                },
+                "candidate": {
+                    "wallMs": 0.21659511799999953,
+                    "userMs": 0.218816,
+                    "systemMs": 0.012457000000000001,
+                    "peakRssMiB": 91.03125
+                }
+            },
+            "parser-nonquoted-100": {
+                "baseline": {
+                    "wallMs": 0.10844035199999995,
+                    "userMs": 0.10968649999999999,
+                    "systemMs": 0.0022925,
+                    "peakRssMiB": 82.296875
+                },
+                "candidate": {
+                    "wallMs": 0.013067801000000056,
+                    "userMs": 0.016952500000000002,
+                    "systemMs": 0.000894,
+                    "peakRssMiB": 83.046875
+                }
+            },
+            "parser-quoted-100": {
+                "baseline": {
+                    "wallMs": 0.1897214644999994,
+                    "userMs": 0.1911135,
+                    "systemMs": 0.003883,
+                    "peakRssMiB": 87.328125
+                },
+                "candidate": {
+                    "wallMs": 0.05303962249999983,
+                    "userMs": 0.0557675,
+                    "systemMs": 0.0013545,
+                    "peakRssMiB": 87.796875
+                }
+            },
+            "stream-nonquoted-400": {
+                "baseline": {
+                    "wallMs": 0.9870476390000005,
+                    "userMs": 0.9216169999999999,
+                    "systemMs": 0.043607999999999994,
+                    "peakRssMiB": 126.671875
+                },
+                "candidate": {
+                    "wallMs": 0.5792800470000005,
+                    "userMs": 0.509818,
+                    "systemMs": 0.031312,
+                    "peakRssMiB": 101.0625
+                }
+            },
+            "stream-quoted-400": {
+                "baseline": {
+                    "wallMs": 1.3460692510000023,
+                    "userMs": 1.270781,
+                    "systemMs": 0.050809,
+                    "peakRssMiB": 131.6875
+                },
+                "candidate": {
+                    "wallMs": 0.7056082630000003,
+                    "userMs": 0.650948,
+                    "systemMs": 0.033384,
+                    "peakRssMiB": 103.890625
+                }
+            },
+            "parser-nonquoted-400": {
+                "baseline": {
+                    "wallMs": 0.4264057730000012,
+                    "userMs": 0.421927,
+                    "systemMs": 0.008276500000000001,
+                    "peakRssMiB": 98.65625
+                },
+                "candidate": {
+                    "wallMs": 0.046171442500000257,
+                    "userMs": 0.0475375,
+                    "systemMs": 0.0009004999999999999,
+                    "peakRssMiB": 83
+                }
+            },
+            "parser-quoted-400": {
+                "baseline": {
+                    "wallMs": 0.7403152410000015,
+                    "userMs": 0.731371,
+                    "systemMs": 0.0147375,
+                    "peakRssMiB": 136.328125
+                },
+                "candidate": {
+                    "wallMs": 0.20279341750000054,
+                    "userMs": 0.2029595,
+                    "systemMs": 0.0031345,
+                    "peakRssMiB": 87.90625
+                }
+            }
+        },
+        "baselineCommit": "4f36559a3d656a7ae234775dee7fa3c4b274d77d"
+    }
+}

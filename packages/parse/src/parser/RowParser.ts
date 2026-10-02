@@ -2,84 +2,79 @@ import { Scanner } from './Scanner';
 import { ColumnParser } from './column';
 import { ParserOptions } from '../ParserOptions';
 import { RowArray } from '../types';
-import { MaybeToken, Token } from './Token';
 
-const EMPTY_STRING = '';
+const NON_WHITESPACE = /\S/;
 
 export class RowParser {
     static isEmptyRow(row: RowArray): boolean {
-        return row.join(EMPTY_STRING).replace(/\s+/g, EMPTY_STRING) === EMPTY_STRING;
+        for (const column of row) {
+            if (column != null && NON_WHITESPACE.test(column)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    private readonly parserOptions: ParserOptions;
+    private readonly delimiterCode: number;
 
     private readonly columnParser: ColumnParser;
 
     public constructor(parserOptions: ParserOptions) {
-        this.parserOptions = parserOptions;
+        this.delimiterCode = parserOptions.delimiter.charCodeAt(0);
         this.columnParser = new ColumnParser(parserOptions);
     }
 
     public parse(scanner: Scanner): RowArray<string> | null {
-        const { parserOptions } = this;
         const { hasMoreData } = scanner;
-        const currentScanner = scanner;
         const columns: RowArray<string> = [];
-        let currentToken = this.getStartToken(currentScanner, columns);
-        while (currentToken) {
-            if (Token.isTokenRowDelimiter(currentToken)) {
-                currentScanner.advancePastToken(currentToken);
-                // if ends with CR and there is more data, keep unparsed due to possible
-                // coming LF in CRLF
-                if (
-                    !currentScanner.hasMoreCharacters &&
-                    Token.isTokenCarriageReturn(currentToken, parserOptions) &&
-                    hasMoreData
-                ) {
+        let pos = this.getStartPos(scanner, columns);
+        while (pos !== -1) {
+            const code = scanner.line.charCodeAt(pos);
+            if (code === 13 || code === 10) {
+                const isCR = code === 13;
+                const isCRLF = isCR && pos + 1 < scanner.lineLength && scanner.line.charCodeAt(pos + 1) === 10;
+                scanner.advanceTo(isCRLF ? pos + 2 : pos + 1);
+                if (!scanner.hasMoreCharacters && isCR && !isCRLF && hasMoreData) {
                     return null;
                 }
-                currentScanner.truncateToCursor();
                 return columns;
             }
-            if (!this.shouldSkipColumnParse(currentScanner, currentToken, columns)) {
-                const item = this.columnParser.parse(currentScanner);
+            if (!this.shouldSkipColumnParse(scanner, pos, columns)) {
+                const item = this.columnParser.parse(scanner);
                 if (item === null) {
                     return null;
                 }
                 columns.push(item);
             }
-            currentToken = currentScanner.nextNonSpaceToken;
+            pos = scanner.findNextNonSpace();
         }
         if (!hasMoreData) {
-            currentScanner.truncateToCursor();
             return columns;
         }
         return null;
     }
 
-    private getStartToken(scanner: Scanner, columns: RowArray<string>): MaybeToken {
-        const currentToken = scanner.nextNonSpaceToken;
-        if (currentToken !== null && Token.isTokenDelimiter(currentToken, this.parserOptions)) {
+    private getStartPos(scanner: Scanner, columns: RowArray<string>): number {
+        const pos = scanner.findNextNonSpace();
+        if (pos !== -1 && scanner.line.charCodeAt(pos) === this.delimiterCode) {
             columns.push('');
-            return scanner.nextNonSpaceToken;
         }
-        return currentToken;
+        return pos;
     }
 
-    private shouldSkipColumnParse(scanner: Scanner, currentToken: Token, columns: RowArray<string>): boolean {
-        const { parserOptions } = this;
-        if (Token.isTokenDelimiter(currentToken, parserOptions)) {
-            scanner.advancePastToken(currentToken);
-            // if the delimiter is at the end of a line
-            const nextToken = scanner.nextCharacterToken;
-            if (!scanner.hasMoreCharacters || (nextToken !== null && Token.isTokenRowDelimiter(nextToken))) {
-                columns.push('');
-                return true;
-            }
-            if (nextToken !== null && Token.isTokenDelimiter(nextToken, parserOptions)) {
-                columns.push('');
-                return true;
-            }
+    private shouldSkipColumnParse(scanner: Scanner, pos: number, columns: RowArray<string>): boolean {
+        if (scanner.line.charCodeAt(pos) !== this.delimiterCode) {
+            return false;
+        }
+        scanner.advanceTo(pos + 1);
+        if (!scanner.hasMoreCharacters) {
+            columns.push('');
+            return true;
+        }
+        const nextCode = scanner.line.charCodeAt(scanner.cursor);
+        if (nextCode === 10 || nextCode === 13 || nextCode === this.delimiterCode) {
+            columns.push('');
+            return true;
         }
         return false;
     }

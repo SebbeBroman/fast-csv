@@ -2,7 +2,6 @@ import { Scanner } from './Scanner';
 import { RowParser } from './RowParser';
 import { ParserOptions } from '../ParserOptions';
 import { RowArray } from '../types';
-import { Token } from './Token';
 
 export interface ParseResult {
     line: string;
@@ -41,36 +40,43 @@ export class Parser {
 
     private parseWithoutComments(scanner: Scanner): ParseResult {
         const rows: RowArray<string>[] = [];
+        let rowStart = scanner.cursor;
         let shouldContinue = true;
         while (shouldContinue) {
             shouldContinue = this.parseRow(scanner, rows);
+            if (shouldContinue) {
+                rowStart = scanner.cursor;
+            }
         }
-        return { line: scanner.line, rows };
+        return { line: scanner.line.slice(rowStart), rows };
     }
 
     private parseWithComments(scanner: Scanner): ParseResult {
-        const { parserOptions } = this;
+        const comment = this.parserOptions.comment;
+        const commentCode = comment?.length === 1 ? comment.charCodeAt(0) : -1;
         const rows: RowArray<string>[] = [];
-        for (let nextToken = scanner.nextCharacterToken; nextToken !== null; nextToken = scanner.nextCharacterToken) {
-            if (Token.isTokenComment(nextToken, parserOptions)) {
+        let rowStart = scanner.cursor;
+        while (scanner.hasMoreCharacters) {
+            if (scanner.line.charCodeAt(scanner.cursor) === commentCode) {
                 const cursor = scanner.advancePastLine();
                 if (cursor === null) {
-                    return { line: scanner.lineFromCursor, rows };
+                    return { line: scanner.line.slice(rowStart), rows };
                 }
                 if (!scanner.hasMoreCharacters) {
-                    return { line: scanner.lineFromCursor, rows };
+                    return { line: scanner.line.slice(scanner.cursor), rows };
                 }
-                scanner.truncateToCursor();
+                rowStart = scanner.cursor;
             } else if (!this.parseRow(scanner, rows)) {
                 break;
+            } else {
+                rowStart = scanner.cursor;
             }
         }
-        return { line: scanner.line, rows };
+        return { line: scanner.line.slice(rowStart), rows };
     }
 
     private parseRow(scanner: Scanner, rows: RowArray<string>[]): boolean {
-        const nextToken = scanner.nextNonSpaceToken;
-        if (!nextToken) {
+        if (scanner.findNextNonSpace() === -1) {
             return false;
         }
         const row = this.rowParser.parse(scanner);

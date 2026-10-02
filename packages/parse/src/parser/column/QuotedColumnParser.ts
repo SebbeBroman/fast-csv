@@ -1,7 +1,6 @@
 import { ColumnFormatter } from './ColumnFormatter';
 import { ParserOptions } from '../../ParserOptions';
 import { Scanner } from '../Scanner';
-import { Token } from '../Token';
 
 interface DataBetweenQuotes {
     foundClosingQuote: boolean;
@@ -13,9 +12,15 @@ export class QuotedColumnParser {
 
     private readonly columnFormatter: ColumnFormatter;
 
+    private readonly quoteCode: number;
+
+    private readonly escapeCode: number;
+
     public constructor(parserOptions: ParserOptions) {
         this.parserOptions = parserOptions;
         this.columnFormatter = new ColumnFormatter(parserOptions);
+        this.quoteCode = parserOptions.quote?.length === 1 ? parserOptions.quote.charCodeAt(0) : -1;
+        this.escapeCode = parserOptions.escapeChar?.length === 1 ? parserOptions.escapeChar.charCodeAt(0) : -1;
     }
 
     public parse(scanner: Scanner): string | null {
@@ -25,10 +30,7 @@ export class QuotedColumnParser {
         const originalCursor = scanner.cursor;
         const { foundClosingQuote, col } = this.gatherDataBetweenQuotes(scanner);
         if (!foundClosingQuote) {
-            // reset the cursor to the original
             scanner.advanceTo(originalCursor);
-            // if we didnt find a closing quote but we potentially have more data then skip the parsing
-            // and return the original scanner.
             if (!scanner.hasMoreData) {
                 throw new Error(
                     `Parse Error: missing closing: '${
@@ -43,65 +45,114 @@ export class QuotedColumnParser {
     }
 
     private gatherDataBetweenQuotes(scanner: Scanner): DataBetweenQuotes {
-        const { parserOptions } = this;
-        let foundStartingQuote = false;
-        let foundClosingQuote = false;
-        const characters = [];
-        let nextToken: Token | null = scanner.nextCharacterToken;
-        for (; !foundClosingQuote && nextToken !== null; nextToken = scanner.nextCharacterToken) {
-            const isQuote = Token.isTokenQuote(nextToken, parserOptions);
-            // ignore first quote
-            if (!foundStartingQuote && isQuote) {
-                foundStartingQuote = true;
-            } else if (foundStartingQuote) {
-                if (Token.isTokenEscapeCharacter(nextToken, parserOptions)) {
-                    // advance past the escape character so we can get the next one in line
-                    scanner.advancePastToken(nextToken);
-                    const tokenFollowingEscape = scanner.nextCharacterToken;
-                    // if the character following the escape is a quote character then just add
-                    // the quote and advance to that character
-                    if (
-                        tokenFollowingEscape !== null &&
-                        (Token.isTokenQuote(tokenFollowingEscape, parserOptions) ||
-                            Token.isTokenEscapeCharacter(tokenFollowingEscape, parserOptions))
-                    ) {
-                        characters.push(tokenFollowingEscape.token);
-                        nextToken = tokenFollowingEscape;
-                    } else if (isQuote) {
-                        // if the escape is also a quote then we found our closing quote and finish early
-                        foundClosingQuote = true;
-                    } else {
-                        // other wise add the escape token to the characters since it wast escaping anything
-                        characters.push(nextToken.token);
-                    }
-                } else if (isQuote) {
-                    // we found our closing quote!
-                    foundClosingQuote = true;
-                } else {
-                    // add the token to the characters
-                    characters.push(nextToken.token);
-                }
-            }
-            scanner.advancePastToken(nextToken);
+        const { parserOptions, columnFormatter, quoteCode, escapeCode } = this;
+        const { line, lineLength } = scanner;
+        let i = scanner.cursor;
+
+        if (quoteCode === -1) {
+            scanner.advanceTo(lineLength);
+            return { col: columnFormatter.format(''), foundClosingQuote: false };
         }
-        return { col: this.columnFormatter.format(characters.join('')), foundClosingQuote };
+
+        const quote = parserOptions.quote as string;
+        const opening = line.indexOf(quote, i);
+        if (opening === -1) {
+            scanner.advanceTo(lineLength);
+            return { col: columnFormatter.format(''), foundClosingQuote: false };
+        }
+        i = opening + 1;
+        const contentStart = i;
+        const escapeChar = parserOptions.escapeChar;
+        const sameEscape = escapeCode === quoteCode;
+
+        let foundClosingQuote = false;
+        let parts: string[] | null = null;
+        let spanStart = contentStart;
+
+        let nextQuoteIndex = sameEscape ? -1 : line.indexOf(quote, i);
+        while (i < lineLength) {
+            if (sameEscape) {
+                const quoteIndex = line.indexOf(quote, i);
+                if (quoteIndex === -1) {
+                    break;
+                }
+                if (quoteIndex + 1 < lineLength && line.charCodeAt(quoteIndex + 1) === quoteCode) {
+                    if (parts === null) {
+                        parts = [];
+                    }
+                    if (quoteIndex > spanStart) {
+                        parts.push(line.slice(spanStart, quoteIndex));
+                    }
+                    parts.push(quote);
+                    i = quoteIndex + 2;
+                    spanStart = i;
+                    continue;
+                }
+                if (parts !== null && quoteIndex > spanStart) {
+                    parts.push(line.slice(spanStart, quoteIndex));
+                }
+                i = quoteIndex + 1;
+                foundClosingQuote = true;
+                break;
+            }
+
+            const quoteIndex = nextQuoteIndex;
+            const escapeIndex = escapeCode === -1 || escapeChar === null ? -1 : line.indexOf(escapeChar, i);
+            if (escapeIndex !== -1 && (quoteIndex === -1 || escapeIndex < quoteIndex)) {
+                const nextCode = escapeIndex + 1 < lineLength ? line.charCodeAt(escapeIndex + 1) : -1;
+                if (nextCode === quoteCode || nextCode === escapeCode) {
+                    if (parts === null) {
+                        parts = [];
+                    }
+                    if (escapeIndex > spanStart) {
+                        parts.push(line.slice(spanStart, escapeIndex));
+                    }
+                    parts.push(line[escapeIndex + 1]);
+                    i = escapeIndex + 2;
+                    if (nextCode === quoteCode) {
+                        nextQuoteIndex = line.indexOf(quote, i);
+                    }
+                    spanStart = i;
+                    continue;
+                }
+                i = escapeIndex + 1;
+                continue;
+            }
+            if (quoteIndex === -1) {
+                break;
+            }
+            if (parts !== null && quoteIndex > spanStart) {
+                parts.push(line.slice(spanStart, quoteIndex));
+            }
+            i = quoteIndex + 1;
+            foundClosingQuote = true;
+            break;
+        }
+
+        scanner.advanceTo(foundClosingQuote ? i : lineLength);
+
+        if (!foundClosingQuote) {
+            return { col: columnFormatter.format(''), foundClosingQuote: false };
+        }
+
+        const raw = parts === null ? line.slice(contentStart, i - 1) : parts.join('');
+        return { col: columnFormatter.format(raw), foundClosingQuote: true };
     }
 
     private checkForMalformedColumn(scanner: Scanner): void {
         const { parserOptions } = this;
-        const { nextNonSpaceToken } = scanner;
-        if (nextNonSpaceToken) {
-            const isNextTokenADelimiter = Token.isTokenDelimiter(nextNonSpaceToken, parserOptions);
-            const isNextTokenARowDelimiter = Token.isTokenRowDelimiter(nextNonSpaceToken);
-            if (!(isNextTokenADelimiter || isNextTokenARowDelimiter)) {
-                // if the final quote was NOT followed by a column (,) or row(\n) delimiter then its a bad column
-                // tldr: only part of the column was quoted
-                const linePreview = scanner.lineFromCursor.substr(0, 10).replace(/[\r\n]/g, "\\n'");
+        const pos = scanner.findNextNonSpace();
+        if (pos !== -1) {
+            const code = scanner.line.charCodeAt(pos);
+            const isDelimiter = code === scanner.delimiterCode;
+            const isRowDelimiter = code === 10 || code === 13;
+            if (!(isDelimiter || isRowDelimiter)) {
+                const linePreview = scanner.line.slice(scanner.cursor, scanner.cursor + 10).replace(/[\r\n]/g, "\\n'");
                 throw new Error(
-                    `Parse Error: expected: '${parserOptions.escapedDelimiter}' OR new line got: '${nextNonSpaceToken.token}'. at '${linePreview}'`,
+                    `Parse Error: expected: '${parserOptions.escapedDelimiter}' OR new line got: '${scanner.line[pos]}'. at '${linePreview}'`,
                 );
             }
-            scanner.advanceToToken(nextNonSpaceToken);
+            scanner.advanceTo(pos);
         } else if (!scanner.hasMoreData) {
             scanner.advancePastLine();
         }
