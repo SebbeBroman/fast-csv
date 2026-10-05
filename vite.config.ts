@@ -7,7 +7,7 @@ export default defineConfig({
         minify: false,
         sourcemap: true,
         lib: {
-            entry: { index: 'src/index.ts', browser: 'src/browser.ts' },
+            entry: { index: 'src/index.ts', node: 'src/node.ts' },
             formats: ['es'],
             fileName: (_format, name) => `${name}.js`,
         },

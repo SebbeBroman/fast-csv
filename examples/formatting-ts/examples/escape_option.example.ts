@@ -1,4 +1,4 @@
-import { format } from '@sebbro/fast-csv';
+import { format } from '@sebbro/fast-csv/node';
 
 const stream = format({ escape: "'" });
 stream.pipe(process.stdout);

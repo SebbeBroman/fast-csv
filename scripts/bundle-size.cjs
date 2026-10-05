@@ -5,14 +5,10 @@ const zlib = require('node:zlib');
 
 const root = path.resolve(__dirname, '..');
 const scenarios = [
-    ['browser parser', 'export { parseText, parseTextWithInfo } from "@sebbro/fast-csv/browser";', 'browser'],
-    ['browser formatter', 'export { writeToString } from "@sebbro/fast-csv/browser";', 'browser'],
-    ['browser: all exports', 'export * from "@sebbro/fast-csv/browser";', 'browser'],
-    [
-        'unused browser import',
-        'import { parseText } from "@sebbro/fast-csv/browser"; export const answer = 42;',
-        'browser',
-    ],
+    ['browser parser', 'export { parseText, parseTextWithInfo } from "@sebbro/fast-csv";', 'browser'],
+    ['browser formatter', 'export { writeToString } from "@sebbro/fast-csv";', 'browser'],
+    ['browser: all exports', 'export * from "@sebbro/fast-csv";', 'browser'],
+    ['unused browser import', 'import { parseText } from "@sebbro/fast-csv"; export const answer = 42;', 'browser'],
     [
         'Node parser',
         'export { parse, parseString, parseStream, parseFile, ParserOptions, CsvParserStream } from "@sebbro/fast-csv/node";',
@@ -21,12 +17,18 @@ const scenarios = [
     ['Node: all exports', 'export * from "@sebbro/fast-csv/node";', 'node'],
 ];
 async function main() {
-    const { build, version } = await import('vite');
+    const { build, version, createLogger } = await import('vite');
     const results = [];
     for (const [name, contents, platform] of scenarios) {
         const result = await build({
             configFile: false,
             logLevel: 'silent',
+            customLogger: {
+                ...createLogger('silent'),
+                warn(message) {
+                    throw new Error(message);
+                },
+            },
             plugins: [
                 {
                     name: 'consumer-entry',
@@ -40,8 +42,8 @@ async function main() {
             ],
             resolve: {
                 alias: {
-                    '@sebbro/fast-csv/browser': path.join(root, 'dist/browser.js'),
-                    '@sebbro/fast-csv/node': path.join(root, 'dist/index.js'),
+                    '@sebbro/fast-csv/node': path.join(root, 'dist/node.js'),
+                    '@sebbro/fast-csv': path.join(root, 'dist/index.js'),
                 },
             },
             build: {

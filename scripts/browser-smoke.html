@@ -5,7 +5,7 @@
 <h1>Browser verification</h1>
 <pre id="results">Running…</pre>
 <script type="module">
-    import { parseText, parseTextWithInfo, writeToString } from '/dist/browser.js';
+    import { parseText, parseTextWithInfo, writeToString } from '/dist/index.js';
     const results = document.querySelector('#results');
     const check = (actual, expected) => {
         if (JSON.stringify(actual) !== JSON.stringify(expected)) {

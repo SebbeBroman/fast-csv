@@ -1,4 +1,4 @@
-import { FormatterRowMap as RowMap, writeToString } from '@sebbro/fast-csv';
+import { FormatterRowMap as RowMap, writeToString } from '@sebbro/fast-csv/node';
 
 const data = [
     { a: 'a1', b: 'b1' },

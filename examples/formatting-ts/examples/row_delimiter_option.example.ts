@@ -1,4 +1,4 @@
-import { format } from '@sebbro/fast-csv';
+import { format } from '@sebbro/fast-csv/node';
 
 const stream = format({ rowDelimiter: '||' });
 stream.pipe(process.stdout);

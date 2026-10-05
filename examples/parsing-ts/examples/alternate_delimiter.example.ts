@@ -1,5 +1,5 @@
 import { EOL } from 'os';
-import { parse } from '@sebbro/fast-csv';
+import { parse } from '@sebbro/fast-csv/node';
 
 const CSV_STRING = ['a1\tb1', 'a2\tb2'].join(EOL);
 

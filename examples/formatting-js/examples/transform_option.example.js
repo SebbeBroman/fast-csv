@@ -1,4 +1,4 @@
-import * as csv from '@sebbro/fast-csv';
+import * as csv from '@sebbro/fast-csv/node';
 
 const transform = (row) => ({
     header1: row.header1.toUpperCase(),

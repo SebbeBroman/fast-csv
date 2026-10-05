@@ -1,6 +1,6 @@
 # @sebbro/fast-csv
 
-An ESM-only fork of [C2FO/fast-csv](https://github.com/C2FO/fast-csv) with an optimized parser and browser APIs that need no Node polyfills. One package includes parsing, formatting, and Node stream adapters, with no runtime dependencies.
+An isomorphic, ESM-only fork of [C2FO/fast-csv](https://github.com/C2FO/fast-csv) with an optimized parser and browser APIs that need no Node polyfills. One package includes parsing, formatting, and Node stream adapters, with no runtime dependencies.
 
 ## Install
 
@@ -8,27 +8,26 @@ An ESM-only fork of [C2FO/fast-csv](https://github.com/C2FO/fast-csv) with an op
 npm install @sebbro/fast-csv
 ```
 
-## Browser
+## Browsers, workers, and Node.js
 
 ```ts
-import { parseText, parseTextWithInfo, writeToString } from '@sebbro/fast-csv/browser';
+import { parseText, parseTextWithInfo, writeToString } from '@sebbro/fast-csv';
 
 const rows = parseText('name,value\nAlice,1\nBob,2', { headers: true });
 // [{ name: 'Alice', value: '1' }, { name: 'Bob', value: '2' }]
 
-const imported = parseText(await file.text(), { headers: true, trim: true });
-const exported = await writeToString(imported, { headers: true });
+const exported = await writeToString(rows, { headers: true });
 ```
 
 `parseText` parses decoded text synchronously and returns `string[][]` by default. It supports headers, quoting, custom delimiters/escapes, comments, trimming, skipping/limiting rows, and synchronous transforms/validation. `parseTextWithInfo` also returns `{ rows, headers, invalidRows, rowCount }`, including strict column mismatch reasons. Return `null` from a transform to filter a row. Promise-returning parser callbacks are rejected.
 
 `writeToString` returns a Promise of the full CSV string and supports formatter options and synchronous or callback-based transforms. Promise-returning formatter transforms are rejected; use a callback for asynchronous work.
 
-Browser imports work without Node streams, filesystem APIs, Buffer, or runtime dependencies. They also work in a Web Worker. File decoding is the caller's responsibility. Parsing materializes the full input before processing rows; `maxRows` does not stop scanning early. For large files, use a worker to avoid blocking the UI or use Node streams where available.
+The package root works in browsers, workers, and Node.js without Node streams, filesystem APIs, Buffer, or runtime dependencies. They also work in a Web Worker. File decoding is the caller's responsibility. Parsing materializes the full input before processing rows; `maxRows` does not stop scanning early. For large files, use a worker to avoid blocking the UI or use Node streams where available.
 
-The parser-only browser bundle is approximately **9.7 kB minified / 3.3 kB gzip**. Parsing and formatting together are approximately **14.3 kB / 4.6 kB gzip**. Importing only parsing functions excludes the formatter when bundled. Measurements use Vite, an ES2022 target, and no source maps; application bundlers can produce slightly different sizes.
+The parser-only browser bundle is approximately **9.7 kB minified / 3.2 kB gzip**. Parsing and formatting together are approximately **14.2 kB / 4.5 kB gzip**. Importing only parsing functions excludes the formatter when bundled. Measurements use Vite, an ES2022 target, and no source maps; application bundlers can produce slightly different sizes.
 
-## Node.js
+## Node.js streams and files
 
 ```js
 import { parseString, writeToString } from '@sebbro/fast-csv/node';
@@ -40,15 +39,15 @@ for await (const row of parseString('name,value\nAlice,1', { headers: true })) {
 const csv = await writeToString(rows, { headers: true });
 ```
 
-The Node entry point retains the parsing and formatting stream APIs, including `parse`, `parseString`, `parseStream`, `parseFile`, `format`, `write`, and the `writeTo*` helpers. The package root is an alias for `/node`. The explicit `/browser` entry excludes Node builtins and exposes the text API; `/node` is an optional alias. Conditional exports are avoided because the two environments expose different APIs. Node.js 20 or newer is required by the Node adapter.
+The `/node` entry point retains the parsing and formatting stream APIs, including `parse`, `parseString`, `parseStream`, `parseFile`, `format`, `write`, and the `writeTo*` helpers. Node.js 20 or newer is required by this adapter. The root always exposes the portable text API, including when imported in Node.js. `/browser` is a compatibility alias for the root. There is no environment-dependent switching of exports.
 
 ## Migrating from fast-csv
 
 - Install only `@sebbro/fast-csv`; separate upstream parser/formatter packages are unnecessary.
-- Replace `fast-csv` imports with `@sebbro/fast-csv/node`, or the root alias `@sebbro/fast-csv`.
-- Use `@sebbro/fast-csv/browser` for browser applications. Node imports contain Node builtins.
+- Replace stream/file imports from `fast-csv` or earlier fork versions with `@sebbro/fast-csv/node`.
+- Use `@sebbro/fast-csv` for portable text parsing and formatting in any environment. Existing `/browser` imports continue to work.
 - Native ESM and TypeScript declarations are shipped. CommonJS builds and historical `build/src` deep imports are not shipped; CommonJS applications can use dynamic `import()`.
-- Fork versions start at `1.0.0` and do not track upstream version numbers. Browser APIs are additions; the Node API retains the upstream interface with parser performance and correctness fixes.
+- Fork versions start at `1.0.0` and do not track upstream version numbers. The root exposes the text API; the Node API retains the upstream interface with parser performance and correctness fixes.
 
 See [upstream API documentation](https://c2fo.github.io/fast-csv) for Node parsing/formatting options. Those docs describe upstream package names; use this fork's imports above.
 

@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 import * as fs from 'fs';
 import * as path from 'path';
-import * as csv from '@sebbro/fast-csv';
+import * as csv from '@sebbro/fast-csv/node';
 
 const rows = [
     ['a', 'b'],

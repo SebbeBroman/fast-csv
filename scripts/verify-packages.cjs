@@ -34,8 +34,9 @@ function checkBrowserGraph(file) {
     }
     visit(source);
 }
-checkBrowserGraph(path.join(directory, 'dist/browser.js'));
-console.log(`Browser graph: ${visited.size} modules, no Node imports/globals or external runtime dependencies`);
+checkBrowserGraph(path.join(directory, 'dist/index.js'));
+assert.deepEqual(manifest.exports['./browser'], manifest.exports['.']);
+console.log(`Portable root graph: ${visited.size} modules, no Node imports/globals or external runtime dependencies`);
 
 const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'sebbro-fast-csv-package-'));
 try {
@@ -77,7 +78,11 @@ try {
         import { createRequire } from 'node:module';
         const manifest = createRequire(import.meta.url)('@sebbro/fast-csv/package.json');
         assert.equal(manifest.name, '@sebbro/fast-csv');
-        assert.equal(csv.parseString, node.parseString);
+        assert.equal(csv.parseText, browser.parseText);
+        assert.equal(csv.writeToString, browser.writeToString);
+        assert.equal(csv.parseString, undefined);
+        assert.deepEqual(csv.parseText('a,b'), [['a', 'b']]);
+        assert.equal(await csv.writeToString([['a,b', 'c']]), '"a,b",c');
         const rows = [];
         for await (const row of node.parseString('a,b\\nx,y', { headers: true })) rows.push(row);
         assert.deepEqual(rows, [{ a: 'x', b: 'y' }]);
@@ -90,7 +95,10 @@ try {
     fs.writeFileSync(
         path.join(temporary, 'consumer.mts'),
         `
-        import { parseText, parseTextWithInfo, writeToString } from '@sebbro/fast-csv/browser';
+        import { parseText, parseTextWithInfo, writeToString } from '@sebbro/fast-csv';
+        import { parseText as browserParseText } from '@sebbro/fast-csv/browser';
+        const browserCell: string = browserParseText('a,b')[0][0];
+        void browserCell;
         const cell: string = parseText('a,b')[0][0];
         const name: string = parseText('name\\nAlice', { headers: true })[0].name;
         const typedName: string = parseText<{ name: string }>('name\\nAlice', { headers: true })[0].name;
@@ -126,7 +134,7 @@ try {
         );
     }
     console.log(
-        `Packed ${manifest.name}@${manifest.version}: root, /node, /browser exports and browser declarations pass; no upstream packages installed`,
+        `Packed ${manifest.name}@${manifest.version}: portable root, /browser alias, /node exports and portable declarations pass; no upstream packages installed`,
     );
     console.log(`Package archive: ${fs.statSync(path.resolve(temporary, packed.filename)).size} bytes`);
 } finally {

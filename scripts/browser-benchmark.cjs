@@ -51,7 +51,7 @@ function resolveVersion(argument) {
     return directory;
 }
 async function worker(directory) {
-    const consolidated = path.join(directory, 'dist/browser.js');
+    const consolidated = path.join(directory, 'dist/index.js');
     const { parseText } = await import(
         pathToFileURL(
             fs.existsSync(consolidated)

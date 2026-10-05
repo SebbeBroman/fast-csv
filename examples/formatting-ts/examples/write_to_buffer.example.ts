@@ -1,4 +1,4 @@
-import { writeToBuffer } from '@sebbro/fast-csv';
+import { writeToBuffer } from '@sebbro/fast-csv/node';
 
 const rows = [
     ['a', 'b'],

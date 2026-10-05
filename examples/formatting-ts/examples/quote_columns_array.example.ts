@@ -1,4 +1,4 @@
-import { format } from '@sebbro/fast-csv';
+import { format } from '@sebbro/fast-csv/node';
 
 const csvStream = format({ headers: ['header1', 'header2'], quoteColumns: [false, true] });
 

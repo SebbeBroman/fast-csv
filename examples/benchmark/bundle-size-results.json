@@ -8,17 +8,17 @@
             "name": "browser parser",
             "platform": "browser",
             "minifiedBytes": 9694,
-            "gzipBytes": 3266,
-            "brotliBytes": 2957,
+            "gzipBytes": 3232,
+            "brotliBytes": 2943,
             "externalImports": [],
             "modules": [
                 {
-                    "file": "dist/Parser-B8xEfQzb.js",
-                    "renderedBytesBeforeMinification": 14931
+                    "file": "dist/RowFormatter-BRDeIwHC.js",
+                    "renderedBytesBeforeMinification": 14937
                 },
                 {
-                    "file": "dist/browser.js",
-                    "renderedBytesBeforeMinification": 1920
+                    "file": "dist/index.js",
+                    "renderedBytesBeforeMinification": 1918
                 }
             ]
         },
@@ -26,17 +26,17 @@
             "name": "browser formatter",
             "platform": "browser",
             "minifiedBytes": 4606,
-            "gzipBytes": 1657,
-            "brotliBytes": 1491,
+            "gzipBytes": 1661,
+            "brotliBytes": 1498,
             "externalImports": [],
             "modules": [
                 {
-                    "file": "dist/Parser-B8xEfQzb.js",
-                    "renderedBytesBeforeMinification": 6882
+                    "file": "dist/RowFormatter-BRDeIwHC.js",
+                    "renderedBytesBeforeMinification": 6888
                 },
                 {
-                    "file": "dist/browser.js",
-                    "renderedBytesBeforeMinification": 930
+                    "file": "dist/index.js",
+                    "renderedBytesBeforeMinification": 928
                 }
             ]
         },
@@ -44,17 +44,17 @@
             "name": "browser: all exports",
             "platform": "browser",
             "minifiedBytes": 14243,
-            "gzipBytes": 4587,
-            "brotliBytes": 4168,
+            "gzipBytes": 4546,
+            "brotliBytes": 4132,
             "externalImports": [],
             "modules": [
                 {
-                    "file": "dist/Parser-B8xEfQzb.js",
-                    "renderedBytesBeforeMinification": 21677
+                    "file": "dist/RowFormatter-BRDeIwHC.js",
+                    "renderedBytesBeforeMinification": 21683
                 },
                 {
-                    "file": "dist/browser.js",
-                    "renderedBytesBeforeMinification": 2811
+                    "file": "dist/index.js",
+                    "renderedBytesBeforeMinification": 2809
                 }
             ]
         },
@@ -76,17 +76,17 @@
             "name": "Node parser",
             "platform": "node",
             "minifiedBytes": 12826,
-            "gzipBytes": 4156,
-            "brotliBytes": 3756,
+            "gzipBytes": 4131,
+            "brotliBytes": 3752,
             "externalImports": ["util", "stream", "fs", "string_decoder"],
             "modules": [
                 {
-                    "file": "dist/Parser-B8xEfQzb.js",
-                    "renderedBytesBeforeMinification": 14931
+                    "file": "dist/RowFormatter-BRDeIwHC.js",
+                    "renderedBytesBeforeMinification": 14937
                 },
                 {
-                    "file": "dist/index.js",
-                    "renderedBytesBeforeMinification": 7564
+                    "file": "dist/node.js",
+                    "renderedBytesBeforeMinification": 7563
                 }
             ]
         },
@@ -94,17 +94,17 @@
             "name": "Node: all exports",
             "platform": "node",
             "minifiedBytes": 18240,
-            "gzipBytes": 5666,
-            "brotliBytes": 5162,
+            "gzipBytes": 5639,
+            "brotliBytes": 5150,
             "externalImports": ["util", "stream", "fs", "string_decoder"],
             "modules": [
                 {
-                    "file": "dist/Parser-B8xEfQzb.js",
-                    "renderedBytesBeforeMinification": 21681
+                    "file": "dist/RowFormatter-BRDeIwHC.js",
+                    "renderedBytesBeforeMinification": 21687
                 },
                 {
-                    "file": "dist/index.js",
-                    "renderedBytesBeforeMinification": 9868
+                    "file": "dist/node.js",
+                    "renderedBytesBeforeMinification": 9867
                 }
             ]
         }
