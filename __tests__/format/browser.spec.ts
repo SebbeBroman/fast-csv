@@ -138,3 +138,16 @@ describe('browser formatter', () => {
         await expect(writeBrowser([], options)).resolves.toBe(await writeNode([], options));
     });
 });
+
+describe('non-string formatter values', () => {
+    it('formats object and tuple values consistently in Node and browsers', async () => {
+        const object = { number: 42, boolean: false, nil: null, missing: undefined, text: 'a,b' };
+        const tuple = Object.entries(object);
+        const expected = 'number,boolean,nil,missing,text\n42,false,,,"a,b"';
+        const rowsByShape: Row[][] = [[object], [tuple]];
+        for (const rows of rowsByShape) {
+            expect(await writeBrowser(rows, { headers: true })).toBe(expected);
+            expect(await writeNode(rows, { headers: true })).toBe(expected);
+        }
+    });
+});

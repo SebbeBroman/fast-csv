@@ -6,9 +6,9 @@ Measured locally on 2026-10-05 with Vite 8.3.1 (Oxc minification), native ESM, E
 | ------------------------------------------ | ----------: | ------: | --------: |
 | `@sebbro/fast-csv/browser`: parser only    |       9.694 |   3.266 |     2.957 |
 | `@sebbro/fast-csv/browser`: formatter only |       4.606 |   1.657 |     1.491 |
-| `@sebbro/fast-csv/browser`: all exports    |      14.288 |   4.600 |     4.191 |
+| `@sebbro/fast-csv/browser`: all exports    |      14.243 |   4.587 |     4.168 |
 | `@sebbro/fast-csv/node`: parser APIs       |      12.826 |   4.156 |     3.756 |
-| `@sebbro/fast-csv/node`: all exports       |      18.285 |   5.673 |     5.175 |
+| `@sebbro/fast-csv/node`: all exports       |      18.240 |   5.666 |     5.162 |
 
 Browser bundles have **no external runtime imports or Node polyfills**. Node measurements leave Node builtins external and therefore are not browser bundles. Parser-only imports from the browser entry exclude the formatter. An unused browser import disappears completely: the fixture retains only its application constant/export (29 bytes).
 

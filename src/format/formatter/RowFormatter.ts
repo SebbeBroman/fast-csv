@@ -156,19 +156,18 @@ export class RowFormatter<I extends Row, O extends Row> {
         return { shouldFormatColumns: true, headers };
     }
 
-    // todo change this method to unknown[]
-    private gatherColumns(row: Row): string[] {
+    private gatherColumns(row: Row): unknown[] {
         if (this.headers === null) {
             throw new Error('Headers is currently null');
         }
         if (!Array.isArray(row)) {
-            return this.headers.map((header): string => {
-                return row[header] as string;
+            return this.headers.map((header): unknown => {
+                return row[header];
             });
         }
         if (RowFormatter.isRowHashArray(row)) {
-            return this.headers.map((header, i): string => {
-                const col = row[i] as unknown as string;
+            return this.headers.map((_header, i): unknown => {
+                const col = row[i];
                 if (col) {
                     return col[1];
                 }
@@ -180,8 +179,7 @@ export class RowFormatter<I extends Row, O extends Row> {
         if (RowFormatter.isRowArray(row) && !this.shouldWriteHeaders) {
             return row;
         }
-        return this.headers.map((header, i): string => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return this.headers.map((_header, i): unknown => {
             return row[i];
         });
     }
@@ -193,7 +191,7 @@ export class RowFormatter<I extends Row, O extends Row> {
         return this._rowTransform(row, cb);
     }
 
-    private formatColumns(columns: string[], isHeadersRow: boolean): string {
+    private formatColumns(columns: unknown[], isHeadersRow: boolean): string {
         const formattedCols = columns
             .map((field, i): string => {
                 return this.fieldFormatter.format(field, i, isHeadersRow);

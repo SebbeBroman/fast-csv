@@ -1,10 +1,5 @@
+import { escapeRegExp } from '../shared/escapeRegExp.js';
 import { HeaderArray, HeaderTransformFunction } from './types.js';
-
-// TODO(major): use native RegExp.escape once engines require Node >=24 (available since Node 24)
-/** Escape special characters for use in a RegExp. */
-const escapeRegExp = (value: string): string => {
-    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-};
 
 /** Encodings supported by the Node adapter, without requiring Node types in the parser core. */
 export type CsvEncoding =

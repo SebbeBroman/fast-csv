@@ -1,11 +1,6 @@
+import { escapeRegExp } from '../../shared/escapeRegExp.js';
 import { FormatterOptions } from '../FormatterOptions.js';
 import { Row } from '../types.js';
-
-// TODO(major): use native RegExp.escape once engines require Node >=24 (available since Node 24)
-/** Escape special characters for use in a RegExp. */
-const escapeRegExp = (value: string): string => {
-    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-};
 
 export class FieldFormatter<I extends Row, O extends Row> {
     private readonly formatterOptions: FormatterOptions<I, O>;
@@ -48,7 +43,7 @@ export class FieldFormatter<I extends Row, O extends Row> {
         return false;
     }
 
-    public format(field: string, fieldIndex: number, isHeader: boolean): string {
+    public format(field: unknown, fieldIndex: number, isHeader: boolean): string {
         const preparedField = `${field ?? ''}`.replace(/\0/g, '');
         const { formatterOptions } = this;
         if (formatterOptions.quote !== '') {
