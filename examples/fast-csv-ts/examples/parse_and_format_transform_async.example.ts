@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as csv from '@sebbro/fast-csv/node';
+import * as csv from '@sebbebroman/fast-csv/node';
 import { User } from './models/user';
 
 interface UserCsvRow {

@@ -1,4 +1,4 @@
-import { write } from '@sebbro/fast-csv/node';
+import { write } from '@sebbebroman/fast-csv/node';
 
 const rows = [
     ['a', 'b'],

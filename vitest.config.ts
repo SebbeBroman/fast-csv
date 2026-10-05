@@ -3,9 +3,9 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
     resolve: {
         alias: {
-            '@sebbro/fast-csv/browser': new URL('./src/index.ts', import.meta.url).pathname,
-            '@sebbro/fast-csv/node': new URL('./src/node.ts', import.meta.url).pathname,
-            '@sebbro/fast-csv': new URL('./src/index.ts', import.meta.url).pathname,
+            '@sebbebroman/fast-csv/browser': new URL('./src/index.ts', import.meta.url).pathname,
+            '@sebbebroman/fast-csv/node': new URL('./src/node.ts', import.meta.url).pathname,
+            '@sebbebroman/fast-csv': new URL('./src/index.ts', import.meta.url).pathname,
         },
     },
     test: {

@@ -1,8 +1,8 @@
 [
     {
-        "package": "@sebbro/fast-csv",
-        "version": "1.0.0",
-        "tarballBytes": 46061,
+        "package": "@sebbebroman/fast-csv",
+        "version": "0.1.0",
+        "tarballBytes": 44466,
         "unpackedBytes": 215984
     }
 ]

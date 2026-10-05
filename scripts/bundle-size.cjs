@@ -5,16 +5,20 @@ const zlib = require('node:zlib');
 
 const root = path.resolve(__dirname, '..');
 const scenarios = [
-    ['browser parser', 'export { parseText, parseTextWithInfo } from "@sebbro/fast-csv";', 'browser'],
-    ['browser formatter', 'export { writeToString } from "@sebbro/fast-csv";', 'browser'],
-    ['browser: all exports', 'export * from "@sebbro/fast-csv";', 'browser'],
-    ['unused browser import', 'import { parseText } from "@sebbro/fast-csv"; export const answer = 42;', 'browser'],
+    ['browser parser', 'export { parseText, parseTextWithInfo } from "@sebbebroman/fast-csv";', 'browser'],
+    ['browser formatter', 'export { writeToString } from "@sebbebroman/fast-csv";', 'browser'],
+    ['browser: all exports', 'export * from "@sebbebroman/fast-csv";', 'browser'],
+    [
+        'unused browser import',
+        'import { parseText } from "@sebbebroman/fast-csv"; export const answer = 42;',
+        'browser',
+    ],
     [
         'Node parser',
-        'export { parse, parseString, parseStream, parseFile, ParserOptions, CsvParserStream } from "@sebbro/fast-csv/node";',
+        'export { parse, parseString, parseStream, parseFile, ParserOptions, CsvParserStream } from "@sebbebroman/fast-csv/node";',
         'node',
     ],
-    ['Node: all exports', 'export * from "@sebbro/fast-csv/node";', 'node'],
+    ['Node: all exports', 'export * from "@sebbebroman/fast-csv/node";', 'node'],
 ];
 async function main() {
     const { build, version, createLogger } = await import('vite');
@@ -42,8 +46,8 @@ async function main() {
             ],
             resolve: {
                 alias: {
-                    '@sebbro/fast-csv/node': path.join(root, 'dist/node.js'),
-                    '@sebbro/fast-csv': path.join(root, 'dist/index.js'),
+                    '@sebbebroman/fast-csv/node': path.join(root, 'dist/node.js'),
+                    '@sebbebroman/fast-csv': path.join(root, 'dist/index.js'),
                 },
             },
             build: {

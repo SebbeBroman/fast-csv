@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { readFileSync } from 'fs';
-import { writeToPath } from '@sebbro/fast-csv/node';
+import { writeToPath } from '@sebbebroman/fast-csv/node';
 
 const rows = [
     ['a', 'b'],

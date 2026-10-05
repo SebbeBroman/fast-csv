@@ -1,5 +1,5 @@
 import { EOL } from 'os';
-import { parse } from '@sebbro/fast-csv/node';
+import { parse } from '@sebbebroman/fast-csv/node';
 
 const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 type UserRow = {

@@ -1,6 +1,6 @@
 import { createReadStream } from 'fs';
 import { resolve } from 'path';
-import { parse } from '@sebbro/fast-csv/node';
+import { parse } from '@sebbebroman/fast-csv/node';
 
 createReadStream(resolve(__dirname, '..', 'assets', 'snake_case_users.csv'))
     .pipe(parse())

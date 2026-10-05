@@ -7,7 +7,7 @@ const ts = require('typescript');
 const root = path.resolve(__dirname, '..');
 const directory = root;
 const manifest = JSON.parse(fs.readFileSync(path.join(directory, 'package.json'), 'utf8'));
-assert.equal(manifest.name, '@sebbro/fast-csv');
+assert.equal(manifest.name, '@sebbebroman/fast-csv');
 assert.equal(manifest.type, 'module');
 assert.equal(manifest.private, undefined);
 assert.deepEqual(manifest.dependencies ?? {}, {});
@@ -72,12 +72,12 @@ try {
     assert.ok(!fs.existsSync(path.join(temporary, 'node_modules/@fast-csv')));
     const consumerScript = `
         import assert from 'node:assert/strict';
-        import * as csv from '@sebbro/fast-csv';
-        import * as node from '@sebbro/fast-csv/node';
-        import * as browser from '@sebbro/fast-csv/browser';
+        import * as csv from '@sebbebroman/fast-csv';
+        import * as node from '@sebbebroman/fast-csv/node';
+        import * as browser from '@sebbebroman/fast-csv/browser';
         import { createRequire } from 'node:module';
-        const manifest = createRequire(import.meta.url)('@sebbro/fast-csv/package.json');
-        assert.equal(manifest.name, '@sebbro/fast-csv');
+        const manifest = createRequire(import.meta.url)('@sebbebroman/fast-csv/package.json');
+        assert.equal(manifest.name, '@sebbebroman/fast-csv');
         assert.equal(csv.parseText, browser.parseText);
         assert.equal(csv.writeToString, browser.writeToString);
         assert.equal(csv.parseString, undefined);
@@ -95,8 +95,8 @@ try {
     fs.writeFileSync(
         path.join(temporary, 'consumer.mts'),
         `
-        import { parseText, parseTextWithInfo, writeToString } from '@sebbro/fast-csv';
-        import { parseText as browserParseText } from '@sebbro/fast-csv/browser';
+        import { parseText, parseTextWithInfo, writeToString } from '@sebbebroman/fast-csv';
+        import { parseText as browserParseText } from '@sebbebroman/fast-csv/browser';
         const browserCell: string = browserParseText('a,b')[0][0];
         void browserCell;
         const cell: string = parseText('a,b')[0][0];

@@ -1,4 +1,4 @@
-import * as csv from '@sebbro/fast-csv/node';
+import * as csv from '@sebbebroman/fast-csv/node';
 
 const rows = [
     'skip1_header1,skip1_header2\n',

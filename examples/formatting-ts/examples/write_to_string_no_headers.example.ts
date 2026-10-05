@@ -1,4 +1,4 @@
-import { writeToString } from '@sebbro/fast-csv/node';
+import { writeToString } from '@sebbebroman/fast-csv/node';
 
 const data = [
     { a: 'a1', b: 'b1' },

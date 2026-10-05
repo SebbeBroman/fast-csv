@@ -1,7 +1,7 @@
 import * as csvFormat from '../../src/format';
-import * as node from '@sebbro/fast-csv/node';
-import * as csv from '@sebbro/fast-csv';
-import * as browser from '@sebbro/fast-csv/browser';
+import * as node from '@sebbebroman/fast-csv/node';
+import * as csv from '@sebbebroman/fast-csv';
+import * as browser from '@sebbebroman/fast-csv/browser';
 
 describe('package entry points', () => {
     it('provides portable parsing and formatting from the root in Node.js', async () => {

@@ -1,6 +1,6 @@
 <!doctype html>
 <meta charset="utf-8" />
-<title>@sebbro/fast-csv browser verification</title>
+<title>@sebbebroman/fast-csv browser verification</title>
 
 <h1>Browser verification</h1>
 <pre id="results">Running…</pre>
@@ -56,9 +56,9 @@
             }
         }
         results.textContent = `PASS: native browser ESM, no Node polyfills\n${navigator.userAgent}\n${JSON.stringify(timings, null, 2)}`;
-        document.title = 'PASS: @sebbro/fast-csv browser verification';
+        document.title = 'PASS: @sebbebroman/fast-csv browser verification';
     } catch (error) {
         results.textContent = `FAIL: ${error.stack}`;
-        document.title = 'FAIL: @sebbro/fast-csv browser verification';
+        document.title = 'FAIL: @sebbebroman/fast-csv browser verification';
     }
 </script>

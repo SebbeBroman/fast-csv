@@ -1,5 +1,5 @@
 const path = require('path');
-const fastCsv = require('@sebbro/fast-csv/node');
+const fastCsv = require('@sebbebroman/fast-csv/node');
 
 const headers = [['first_name', 'last_name', 'email_address', 'address']];
 

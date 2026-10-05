@@ -1,4 +1,4 @@
-import { parse } from '@sebbro/fast-csv/node';
+import { parse } from '@sebbebroman/fast-csv/node';
 
 const rows = [
     'header1,header2\n',

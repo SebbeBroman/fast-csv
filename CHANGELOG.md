@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.0 — @sebbebroman/fast-csv (2026-10-05)
+
+First release of this fork, with versions independent of upstream fast-csv. Released as `0.1.0` to signal that the API may still change before `1.0.0`.
+
+- Publish one ESM-only package containing parsing and formatting, with zero runtime dependencies and TypeScript declarations.
+- Expose portable `parseText`, `parseTextWithInfo`, and `writeToString` APIs from the package root for browsers, workers, and Node.js. `/browser` aliases the root.
+- Keep the Node.js stream, buffer, and filesystem APIs under `/node`; consumers of previous root stream APIs must update their imports. The Node adapter supports Node.js 20 and newer.
+- Optimize cursor-based parsing and browser bundle size, including tree-shaking of unused parsing and formatting code.
+- Handle escaped quotes, Unicode, duplicate/special headers, validation feedback, and formatter values consistently across the portable and Node APIs.
+- Use Vite, Vitest, Oxlint, and Oxfmt for development; remove monorepo library packages and commit hooks.
+
+The entries below preserve upstream release history and attribution.
+
 ## [5.0.7](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.7) (2026-05-06)
 
 ### Bug Fixes

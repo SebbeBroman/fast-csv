@@ -1,4 +1,4 @@
-import { format } from '@sebbro/fast-csv/node';
+import { format } from '@sebbebroman/fast-csv/node';
 
 interface CsvRow {
     header1: string;

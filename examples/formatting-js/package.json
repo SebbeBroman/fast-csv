@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "example-runner": "workspace:*",
-        "@sebbro/fast-csv": "workspace:*"
+        "@sebbebroman/fast-csv": "workspace:*"
     },
     "type": "module"
 }

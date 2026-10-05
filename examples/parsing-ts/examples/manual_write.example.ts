@@ -1,4 +1,4 @@
-import { parse } from '@sebbro/fast-csv/node';
+import { parse } from '@sebbebroman/fast-csv/node';
 
 const stream = parse({ headers: true })
     .on('error', (error) => {

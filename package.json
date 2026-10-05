@@ -1,6 +1,6 @@
 {
-    "name": "@sebbro/fast-csv",
-    "version": "1.0.0",
+    "name": "@sebbebroman/fast-csv",
+    "version": "0.1.0",
     "description": "Isomorphic ESM CSV parser and formatter with optional Node.js stream and file APIs",
     "main": "./dist/index.js",
     "types": "./dist/types/index.d.ts",
@@ -8,7 +8,7 @@
         "clean": "rm -rf dist",
         "build": "pnpm run clean && vite build && tsc -p tsconfig.types.json",
         "build:examples": "pnpm --filter \"./examples/*\" --if-present run build",
-        "prepublishOnly": "pnpm run build && pnpm run verify:package",
+        "prepublishOnly": "pnpm test && pnpm run build && pnpm run verify:package && pnpm run bundle:size",
         "release": "pnpm publish --access public",
         "test": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run test:unit",
         "test:unit": "vitest run --coverage",
@@ -42,7 +42,10 @@
         "CSV"
     ],
     "homepage": "https://github.com/SebbeBroman/fast-csv#readme",
-    "author": "Doug Martin",
+    "author": {
+        "name": "sebbebroman",
+        "url": "https://github.com/SebbeBroman"
+    },
     "license": "MIT",
     "engines": {
         "node": ">=20.0.0"
@@ -83,7 +86,16 @@
     },
     "contributors": [
         {
-            "name": "sebbro"
+            "name": "sebbebroman",
+            "url": "https://github.com/SebbeBroman"
+        },
+        {
+            "name": "Doug Martin",
+            "url": "https://github.com/dougamartin"
+        },
+        {
+            "name": "C2FO",
+            "url": "https://github.com/C2FO"
         }
     ],
     "publishConfig": {
