@@ -41,7 +41,7 @@ The parser speedup is already included. [Benchmarks](examples/benchmark/parser-p
 
 ## Bundle size
 
-The browser parser is 9.8 kB minified / 3.3 kB gzip / 3.0 kB Brotli. Parser and formatter together are 14.4 kB / 4.6 kB / 4.2 kB. Parser-only imports from `@sebbro/fast-csv/browser` remove the formatter. These are ES2022 production bundles with no Node polyfills, source maps, or application code. [Measurements and reproduction](examples/benchmark/bundle-size.md). [Further optimizations](examples/benchmark/browser-optimization.md) include CPU, time, and RSS comparisons for 20–400 rows.
+The browser parser is 9.7 kB minified / 3.3 kB gzip / 3.0 kB Brotli. Parser and formatter together are 14.3 kB / 4.6 kB / 4.2 kB. Parser-only imports from `@sebbro/fast-csv/browser` remove the formatter. These are ES2022 production bundles with no Node polyfills, source maps, or application code. [Measurements and reproduction](examples/benchmark/bundle-size.md). [Further optimizations](examples/benchmark/browser-optimization.md) include CPU, time, and RSS comparisons for 20–400 rows.
 
 ## ESM-only packaging
 
@@ -56,18 +56,18 @@ No CommonJS build is shipped, and historical deep imports into `build/src` are n
 To use this local fork without publishing, build and pack one package, then install its archive in your application:
 
 ```sh
-pnpm --filter @sebbro/fast-csv run build
-pnpm --filter @sebbro/fast-csv pack --pack-destination /tmp/fast-csv-fork
+pnpm run build
+pnpm pack --pack-destination /tmp/fast-csv-fork
 npm install /tmp/fast-csv-fork/sebbro-fast-csv-1.0.0.tgz
 ```
 
-The private parser/formatter workspaces are compiled into the package. The archive needs no upstream packages. Version `1.0.0` starts this fork's independent version history.
+The parser and formatter live in `src/parse` and `src/format` inside the root package. The archive needs no upstream packages. Version `1.0.0` starts this fork's independent version history.
 
 ## Development checks
 
 ```sh
-pnpm --filter @sebbro/fast-csv run build
-pnpm exec jest --runInBand
+pnpm run build
+pnpm run test:unit
 node scripts/verify-packages.cjs
 pnpm run bundle:size
 python3 -m http.server 8765 --bind 127.0.0.1

@@ -90,14 +90,12 @@ async function worker(modulePath, scenario) {
     }
     await execute(); // Warm-up is excluded from timing and included in peak RSS.
     for (let i = 1; i < warmups; i += 1) {
-        // eslint-disable-next-line no-await-in-loop
         await execute();
     }
     const timings = [];
     const usageBefore = process.cpuUsage();
     for (let i = 0; i < measuredRuns; i += 1) {
         const start = performance.now();
-        // eslint-disable-next-line no-await-in-loop
         await execute();
         timings.push(performance.now() - start);
     }
@@ -120,10 +118,37 @@ function median(values) {
 const temporaryDirectories = [];
 function resolveVersion(argument) {
     if (!argument.startsWith('git:')) {
-        return path.resolve(argument);
+        const resolved = path.resolve(argument);
+        const sourceDirectory = fs.existsSync(path.join(resolved, 'src/parse'))
+            ? path.join(resolved, 'src/parse')
+            : resolved;
+        if (!fs.existsSync(path.join(sourceDirectory, 'ParserOptions.ts'))) return resolved;
+        const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'fast-csv-benchmark-'));
+        temporaryDirectories.push(directory);
+        const ts = require('typescript');
+        for (const entry of fs.readdirSync(sourceDirectory, { recursive: true })) {
+            if (!entry.endsWith('.ts')) continue;
+            const output = path.join(directory, entry.replace(/\.ts$/, '.js'));
+            fs.mkdirSync(path.dirname(output), { recursive: true });
+            fs.writeFileSync(
+                output,
+                ts.transpileModule(fs.readFileSync(path.join(sourceDirectory, entry), 'utf8'), {
+                    compilerOptions: {
+                        target: ts.ScriptTarget.ES2022,
+                        module: ts.ModuleKind.CommonJS,
+                        esModuleInterop: true,
+                    },
+                }).outputText,
+            );
+        }
+        return directory;
     }
     const revision = argument.slice(4);
-    const sourcePrefix = 'packages/parse/src/';
+    const sourcePrefix = execFileSync('git', ['ls-tree', '-r', '--name-only', revision, 'src/parse/'], {
+        encoding: 'utf8',
+    }).trim()
+        ? 'src/parse/'
+        : 'packages/parse/src/';
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'fast-csv-benchmark-'));
     temporaryDirectories.push(directory);
     const ts = require('typescript');

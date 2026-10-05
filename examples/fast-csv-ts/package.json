@@ -12,8 +12,7 @@
         "compile": "tsc"
     },
     "dependencies": {
-        "example-runner": "5.0.7",
-        "typescript": "5.9.3",
+        "example-runner": "workspace:*",
         "@sebbro/fast-csv": "workspace:*"
     }
 }

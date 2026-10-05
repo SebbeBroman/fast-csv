@@ -1,4 +1,4 @@
-import { parse } from '@fast-csv/parse';
+import { parse } from '@sebbro/fast-csv';
 
 const rows = [
     'skip1_header1,skip1_header2\n',

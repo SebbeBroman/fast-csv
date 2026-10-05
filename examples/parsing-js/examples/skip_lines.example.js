@@ -1,4 +1,4 @@
-const csv = require('@fast-csv/parse');
+import * as csv from '@sebbro/fast-csv';
 
 const rows = [
     'skip1_header1,skip1_header2\n',

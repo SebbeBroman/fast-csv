@@ -1,4 +1,4 @@
-const csv = require('@fast-csv/parse');
+import * as csv from '@sebbro/fast-csv';
 
 const stream = csv
     .parse({ headers: true })

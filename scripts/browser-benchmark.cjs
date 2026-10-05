@@ -20,7 +20,12 @@ function resolveVersion(argument) {
     temporary.push(directory);
     const ts = require('typescript');
     for (const name of ['parse', 'format']) {
-        const prefix = `packages/${name}/src/`;
+        const prefix = execFileSync('git', ['ls-tree', '-r', '--name-only', revision, `src/${name}/`], {
+            cwd: root,
+            encoding: 'utf8',
+        }).trim()
+            ? `src/${name}/`
+            : `packages/${name}/src/`;
         const files = execFileSync('git', ['ls-tree', '-r', '--name-only', revision, prefix], {
             cwd: root,
             encoding: 'utf8',
@@ -46,11 +51,20 @@ function resolveVersion(argument) {
     return directory;
 }
 async function worker(directory) {
+    const consolidated = path.join(directory, 'dist/browser.js');
     const { parseText } = await import(
-        pathToFileURL(path.join(directory, 'packages/parse/build/esm/src/browser.js')).href
+        pathToFileURL(
+            fs.existsSync(consolidated)
+                ? consolidated
+                : path.join(directory, 'packages/parse/build/esm/src/browser.js'),
+        ).href
     );
     const { writeToString } = await import(
-        pathToFileURL(path.join(directory, 'packages/format/build/esm/src/browser.js')).href
+        pathToFileURL(
+            fs.existsSync(consolidated)
+                ? consolidated
+                : path.join(directory, 'packages/format/build/esm/src/browser.js'),
+        ).href
     );
     const results = {};
     for (const quoted of [false, true]) {
@@ -139,11 +153,11 @@ async function main() {
         measurements,
     };
     const output = path.join(root, 'examples/benchmark/browser-optimization-results.json');
-    const prettier = require('prettier');
-    fs.writeFileSync(
-        output,
-        await prettier.format(JSON.stringify(report), { ...(await prettier.resolveConfig(output)), filepath: output }),
-    );
+    fs.writeFileSync(output, JSON.stringify(report, null, 4) + '\n');
+    require('node:child_process').execFileSync('pnpm', ['exec', 'oxfmt', '--write', output], {
+        cwd: root,
+        stdio: 'pipe',
+    });
     console.log(JSON.stringify({ results, peakRssMiB }, null, 2));
 }
 main()

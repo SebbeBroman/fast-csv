@@ -40,7 +40,7 @@ Median peak RSS for the **complete repeated suite** was 92.72 → 93.00 MiB. Thi
 Reproduce after building the candidate:
 
 ```sh
-pnpm -r --filter './packages/*' run build
+pnpm run build
 node scripts/browser-benchmark.cjs git:069a97c .
 ```
 

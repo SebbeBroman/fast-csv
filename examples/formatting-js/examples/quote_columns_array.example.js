@@ -1,4 +1,4 @@
-const csv = require('@fast-csv/format');
+import * as csv from '@sebbro/fast-csv';
 
 const csvStream = csv.format({ headers: ['header1', 'header2'], quoteColumns: [false, true] });
 

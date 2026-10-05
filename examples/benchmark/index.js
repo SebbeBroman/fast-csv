@@ -45,7 +45,6 @@ async function benchmarkRun(title, num, m) {
     let runStart = start;
     const howMany = 5;
     for (let i = 0; i < howMany; i += 1) {
-        // eslint-disable-next-line no-await-in-loop
         await m(num);
         console.log('%s: RUN(%d lines) 1 %dms', title, num, new Date() - runStart);
         runStart = new Date();

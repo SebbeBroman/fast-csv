@@ -1,21 +1,21 @@
 # Fork bundle sizes
 
-Measured locally on 2026-10-02 with esbuild 0.28.2, native ESM, ES2022 target, tree shaking, minification, and no source maps. Compression is gzip level 9 and Brotli quality 11. Sizes are bytes; kB below means 1,000 bytes. These are library bundles, excluding application code and HTTP headers. Actual application compression and bundler output can differ slightly.
+Measured locally on 2026-10-05 with Vite 8.3.1 (Oxc minification), native ESM, ES2022 target, tree shaking, minification, and no source maps. Compression is gzip level 9 and Brotli quality 11. Sizes are bytes; kB below means 1,000 bytes. These are library bundles, excluding application code and HTTP headers. Actual application compression and bundler output can differ slightly.
 
 | Entry / retained exports                   | Minified kB | gzip kB | Brotli kB |
 | ------------------------------------------ | ----------: | ------: | --------: |
-| `@sebbro/fast-csv/browser`: parser only    |       9.806 |   3.308 |     3.007 |
-| `@sebbro/fast-csv/browser`: formatter only |       4.641 |   1.678 |     1.517 |
-| `@sebbro/fast-csv/browser`: all exports    |      14.438 |   4.645 |     4.237 |
-| `@sebbro/fast-csv/node`: parser APIs       |      12.976 |   4.213 |     3.820 |
-| `@sebbro/fast-csv/node`: all exports       |      18.604 |   5.777 |     5.268 |
+| `@sebbro/fast-csv/browser`: parser only    |       9.694 |   3.266 |     2.957 |
+| `@sebbro/fast-csv/browser`: formatter only |       4.606 |   1.657 |     1.491 |
+| `@sebbro/fast-csv/browser`: all exports    |      14.288 |   4.600 |     4.191 |
+| `@sebbro/fast-csv/node`: parser APIs       |      12.826 |   4.156 |     3.756 |
+| `@sebbro/fast-csv/node`: all exports       |      18.285 |   5.673 |     5.175 |
 
-Browser bundles have **no external runtime imports or Node polyfills**. Node measurements leave Node builtins external and therefore are not browser bundles. Parser-only imports from the browser entry exclude the formatter. An unused browser import disappears completely: the fixture retains only its application constant/export (32 bytes).
+Browser bundles have **no external runtime imports or Node polyfills**. Node measurements leave Node builtins external and therefore are not browser bundles. Parser-only imports from the browser entry exclude the formatter. An unused browser import disappears completely: the fixture retains only its application constant/export (29 bytes).
 
 Reproduce after building:
 
 ```sh
-pnpm --filter @sebbro/fast-csv run build
+pnpm run build
 pnpm run bundle:size
 ```
 
@@ -25,14 +25,10 @@ The command also executes browser bundles to check parser and formatter behavior
 
 One `@sebbro/fast-csv@1.0.0` archive includes Node and browser JS, internal parser/formatter implementations, TypeScript declarations, source maps with embedded sources, README, changelog, and the upstream license notice. This measures installation downloads rather than the runtime browser payload.
 
-| Package            | `.tgz` bytes | Unpacked file bytes |
-| ------------------ | -----------: | ------------------: |
-| `@sebbro/fast-csv` |       46,061 |             215,984 |
-
-Produce it with `pnpm --filter @sebbro/fast-csv pack --pack-destination /tmp/fast-csv-fork`. Package verification installs this package alone in a fresh offline consumer and checks exports and browser declarations. No upstream packages are installed. Archive sizes can change with README or source-map changes. [Recorded package sizes](package-size-results.json).
+Produce it with `pnpm pack --pack-destination /tmp/fast-csv-fork`. Package verification installs this package alone in a fresh offline consumer and checks exports and browser declarations. No upstream packages are installed. Archive sizes can change with README or source-map changes.
 
 ## Remaining considerations
 
 - Browser parsing materializes the full input; `maxRows` only limits row processing. Incremental parsing or workers would matter for large files, not the tested 20–400-row tables.
 - Legacy Scanner/Token compatibility helpers are kept in separate modules and are excluded from the parser bundle. [Additional optimizations and performance measurements](browser-optimization.md).
-- Only `@sebbro/fast-csv` is publishable. Parser and formatter workspaces are private; their implementations are included in the package. Fork versions start at `1.0.0`.
+- Only `@sebbro/fast-csv` is publishable. Parser and formatter sources are internal directories in the root package. Fork versions start at `1.0.0`.

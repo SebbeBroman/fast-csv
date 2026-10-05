@@ -1,4 +1,4 @@
-import { writeToStream } from '@fast-csv/format';
+import { writeToStream } from '@sebbro/fast-csv';
 
 const rows = [
     ['a', 'b'],

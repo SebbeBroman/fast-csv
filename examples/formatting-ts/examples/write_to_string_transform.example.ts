@@ -1,4 +1,4 @@
-import { RowMap, writeToString } from '@fast-csv/format';
+import { FormatterRowMap as RowMap, writeToString } from '@sebbro/fast-csv';
 
 const data = [
     { a: 'a1', b: 'b1' },

@@ -1,6 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const csv = require('@fast-csv/format');
+import { fileURLToPath } from 'node:url';
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+import * as fs from 'fs';
+import * as path from 'path';
+import * as csv from '@sebbro/fast-csv';
 
 const rows = [
     ['a', 'b'],

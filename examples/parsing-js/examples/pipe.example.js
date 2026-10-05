@@ -1,6 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const csv = require('@fast-csv/parse');
+import { fileURLToPath } from 'node:url';
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+import * as fs from 'fs';
+import * as path from 'path';
+import * as csv from '@sebbro/fast-csv';
 
 fs.createReadStream(path.resolve(__dirname, '..', 'assets', 'snake_case_users.csv'))
     .pipe(csv.parse())

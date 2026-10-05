@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-/* eslint-disable no-shadow,no-unused-expressions */
 
 const { EOL } = require('os');
 const fs = require('fs');
 const cp = require('child_process');
 const path = require('path');
 const globby = require('globby');
-const { diff } = require('jest-diff');
+const { inspect } = require('node:util');
+const diff = (expected, actual) => `Expected:\n${inspect(expected)}\nActual:\n${inspect(actual)}`;
 const yargs = require('yargs');
 
 const OUTPUT_REGEXP = new RegExp(`\\/\\/ Output: *${EOL}`);

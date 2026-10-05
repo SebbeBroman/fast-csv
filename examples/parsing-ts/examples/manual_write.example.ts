@@ -1,4 +1,4 @@
-import { parse } from '@fast-csv/parse';
+import { parse } from '@sebbro/fast-csv';
 
 const stream = parse({ headers: true })
     .on('error', (error) => {

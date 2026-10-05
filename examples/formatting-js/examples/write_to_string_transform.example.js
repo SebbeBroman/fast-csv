@@ -1,4 +1,4 @@
-const csv = require('@fast-csv/format');
+import * as csv from '@sebbro/fast-csv';
 
 const data = [
     { a: 'a1', b: 'b1' },

@@ -1,0 +1,18 @@
+{
+    "$schema": "./node_modules/oxfmt/configuration_schema.json",
+    "singleQuote": true,
+    "printWidth": 120,
+    "trailingComma": "all",
+    "tabWidth": 4,
+    "sortPackageJson": false,
+    "ignorePatterns": [
+        "**/node_modules/**",
+        "**/build/**",
+        "dist/**",
+        "coverage/**",
+        "documentation/.docusaurus/**",
+        "pnpm-lock.yaml",
+        "**/*.tsbuildinfo"
+    ],
+    "overrides": [{ "files": ["*.{yaml,yml}"], "options": { "tabWidth": 2 } }]
+}

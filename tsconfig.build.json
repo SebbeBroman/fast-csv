@@ -15,7 +15,9 @@
         "pretty": true,
         "sourceMap": true,
         "strict": true,
-        "target": "es2022"
+        "target": "es2022",
+        "moduleResolution": "node",
+        "verbatimModuleSyntax": false
     },
     "exclude": ["node_modules", "documentation"]
 }

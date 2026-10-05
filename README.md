@@ -26,7 +26,7 @@ const exported = await writeToString(imported, { headers: true });
 
 Browser imports work without Node streams, filesystem APIs, Buffer, or runtime dependencies. They also work in a Web Worker. File decoding is the caller's responsibility. Parsing materializes the full input before processing rows; `maxRows` does not stop scanning early. For large files, use a worker to avoid blocking the UI or use Node streams where available.
 
-The parser-only browser bundle is approximately **9.8 kB minified / 3.3 kB gzip**. Parsing and formatting together are approximately **14.4 kB / 4.6 kB gzip**. Importing only parsing functions excludes the formatter when bundled. Measurements use esbuild, an ES2022 target, and no source maps; application bundlers can produce slightly different sizes.
+The parser-only browser bundle is approximately **9.7 kB minified / 3.3 kB gzip**. Parsing and formatting together are approximately **14.3 kB / 4.6 kB gzip**. Importing only parsing functions excludes the formatter when bundled. Measurements use Vite, an ES2022 target, and no source maps; application bundlers can produce slightly different sizes.
 
 ## Node.js
 
@@ -40,7 +40,7 @@ for await (const row of parseString('name,value\nAlice,1', { headers: true })) {
 const csv = await writeToString(rows, { headers: true });
 ```
 
-The Node entry point retains the parsing and formatting stream APIs, including `parse`, `parseString`, `parseStream`, `parseFile`, `format`, `write`, and the `writeTo*` helpers. The package root is an alias for `/node`. Node.js 20 or newer is required by the Node adapter.
+The Node entry point retains the parsing and formatting stream APIs, including `parse`, `parseString`, `parseStream`, `parseFile`, `format`, `write`, and the `writeTo*` helpers. The package root is an alias for `/node`. The explicit `/browser` entry excludes Node builtins and exposes the text API; `/node` is an optional alias. Conditional exports are avoided because the two environments expose different APIs. Node.js 20 or newer is required by the Node adapter.
 
 ## Migrating from fast-csv
 
@@ -55,15 +55,16 @@ See [upstream API documentation](https://c2fo.github.io/fast-csv) for Node parsi
 ## Development
 
 ```sh
+# Development requires Node.js 22.12+ (the published Node API supports Node.js 20+)
 pnpm install --frozen-lockfile
-pnpm --filter @sebbro/fast-csv run build
-pnpm exec jest --runInBand
+pnpm run build
+pnpm run test:unit
 node scripts/verify-packages.cjs
 pnpm run bundle:size
-pnpm --filter @sebbro/fast-csv pack --pack-destination /tmp/fast-csv-fork
+pnpm pack --pack-destination /tmp/fast-csv-fork
 ```
 
-The parser and formatter source workspaces are private. The published package compiles both internally, so its archive works by itself. Build, tests, verification, and packing do not publish anything. `pnpm run release` publishes only `@sebbro/fast-csv` to npm; it does not create a GitHub release or push Git changes.
+The library lives in `src/parse` and `src/format` within one root package. Vite builds the ESM entry points and TypeScript emits declarations. Vitest runs tests; Oxlint and Oxfmt handle linting and formatting. There are no commit hooks. Examples and documentation are private workspace projects. Build, tests, verification, and packing do not publish anything. `pnpm run release` publishes only `@sebbro/fast-csv` to npm; it does not create a GitHub release or push Git changes.
 
 ## Attribution and license
 

@@ -5,20 +5,13 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const ts = require('typescript');
 const root = path.resolve(__dirname, '..');
-const directory = path.join(root, 'packages/fast-csv');
+const directory = root;
 const manifest = JSON.parse(fs.readFileSync(path.join(directory, 'package.json'), 'utf8'));
 assert.equal(manifest.name, '@sebbro/fast-csv');
 assert.equal(manifest.type, 'module');
 assert.equal(manifest.private, undefined);
 assert.deepEqual(manifest.dependencies ?? {}, {});
-for (const name of ['parse', 'format']) {
-    assert.equal(JSON.parse(fs.readFileSync(path.join(root, 'packages', name, 'package.json'))).private, true);
-}
-assert.ok(!fs.existsSync(path.join(directory, 'build/src')), 'Unexpected CommonJS output');
-assert.equal(
-    fs.readFileSync(path.join(directory, 'build/esm/LICENSE'), 'utf8'),
-    fs.readFileSync(path.join(root, 'LICENSE'), 'utf8'),
-);
+assert.ok(!fs.existsSync(path.join(directory, 'dist/index.cjs')), 'Unexpected CommonJS output');
 
 const visited = new Set();
 function checkBrowserGraph(file) {
@@ -41,7 +34,7 @@ function checkBrowserGraph(file) {
     }
     visit(source);
 }
-checkBrowserGraph(path.join(directory, 'build/esm/src/browser.js'));
+checkBrowserGraph(path.join(directory, 'dist/browser.js'));
 console.log(`Browser graph: ${visited.size} modules, no Node imports/globals or external runtime dependencies`);
 
 const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'sebbro-fast-csv-package-'));
@@ -53,7 +46,7 @@ try {
         }),
     );
     assert.equal(packed.version, manifest.version);
-    assert.ok(packed.files.some((file) => file.path.endsWith('/LICENSE')));
+    assert.ok(packed.files.some((file) => file.path === 'LICENSE'));
     for (const file of packed.files) {
         if (file.path.endsWith('.d.ts')) {
             assert.ok(

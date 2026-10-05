@@ -1,5 +1,5 @@
-const { EOL } = require('os');
-const csv = require('@fast-csv/parse');
+import { EOL } from 'os';
+import * as csv from '@sebbro/fast-csv';
 
 const CSV_STRING = ['a1\tb1', 'a2\tb2'].join(EOL);
 

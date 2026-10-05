@@ -1,24 +1,11 @@
 {
     "extends": "./tsconfig.build.json",
     "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "@fast-csv/format": ["packages/format/src"],
-            "@fast-csv/parse": ["packages/parse/src"],
-            "@sebbro/fast-csv": ["packages/fast-csv/src"],
-            "@sebbro/fast-csv/node": ["packages/fast-csv/src/index.ts"],
-            "@sebbro/fast-csv/browser": ["packages/fast-csv/src/browser.ts"]
-        }
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "types": ["node", "vitest/globals"],
+        "noEmit": true,
+        "isolatedModules": true
     },
-    "references": [
-        {
-            "path": "./packages/fast-csv"
-        },
-        {
-            "path": "./packages/format"
-        },
-        {
-            "path": "./packages/parse"
-        }
-    ]
+    "include": ["src/**/*.ts", "__tests__/**/*.ts", "vite.config.ts", "vitest.config.ts"]
 }

@@ -1,4 +1,4 @@
-const csv = require('@fast-csv/format');
+import * as csv from '@sebbro/fast-csv';
 
 const transform = (row) => ({
     header1: row.header1.toUpperCase(),
